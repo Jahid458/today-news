@@ -6,8 +6,11 @@ import {
   FaSignOutAlt,
   FaSignInAlt,
   FaUserPlus,
+  FaTachometerAlt,
 } from "react-icons/fa";
 import useAuth from "../../hooks/useAuth";
+import { MdPlaylistAddCheckCircle } from "react-icons/md";
+import { GiBoxUnpacking } from "react-icons/gi";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -25,17 +28,17 @@ const Navbar = () => {
           <Link to="/" className="text-gray-700 hover:text-orange-600">
             <FaHome className="inline mr-1" /> Home
           </Link>
-          <Link to="/add-articles" className="text-gray-700 hover:text-orange-600">
+          <Link to="/add-article" className="text-gray-700 hover:text-orange-600">
             <FaPlus className="inline mr-1" /> Add Articles
           </Link>
-          <Link to="/all-articles" className="text-gray-700 hover:text-orange-600">
-            <FaList className="inline mr-1" /> All Articles
+          <Link to="/dashboard" className="text-gray-700 hover:text-orange-600">
+            <FaTachometerAlt className="inline mr-1" /> Dashboard
           </Link>
-          <Link to="/subscription" className="text-gray-700 hover:text-orange-600">
-            Subscription
+          <Link to="/my-article" className="text-gray-700 hover:text-orange-600">
+            <MdPlaylistAddCheckCircle className="inline mr-1" /> My Article
           </Link>
-          <Link to="/my-articles" className="text-gray-700 hover:text-orange-600">
-            My Articles
+          <Link to="/premium-article" className="text-gray-700 hover:text-orange-600">
+            <GiBoxUnpacking className="inline mr-1" /> Premium Article
           </Link>
         </div>
 
@@ -108,33 +111,28 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/all-articles">
-                  <FaList className="mr-2" /> All Articles
+                <Link to="/dashboard">
+                  <FaTachometerAlt className="mr-2" /> Dashboard
                 </Link>
               </li>
               <li>
-                <Link to="/subscription">Subscription</Link>
+                <Link to="/my-article">
+                  <MdPlaylistAddCheckCircle className="mr-2" /> My Article
+                </Link>
               </li>
               <li>
-                <Link to="/my-articles">My Articles</Link>
+                <Link to="/premium-article">
+                  <GiBoxUnpacking className="mr-2" /> Premium Article
+                </Link>
               </li>
               <li>
                 {user ? (
-                  <>
-                    <Link to="/profile">
-                      <img
-                        src={user?.photoURL || ""}
-                        alt="User Profile"
-                        className="w-8 h-8 rounded-full border border-orange-600"
-                      />
-                    </Link>
-                    <button
-                      onClick={logOut}
-                      className="text-orange-600 mt-2 border border-orange-600 px-4 py-2 rounded hover:bg-orange-600 hover:text-white w-full"
-                    >
-                      <FaSignOutAlt className="inline mr-1" /> Logout
-                    </button>
-                  </>
+                  <button
+                    onClick={logOut}
+                    className="text-orange-600 mt-2 border border-orange-600 px-4 py-2 rounded hover:bg-orange-600 hover:text-white w-full"
+                  >
+                    <FaSignOutAlt className="inline mr-1" /> Logout
+                  </button>
                 ) : (
                   <>
                     <Link

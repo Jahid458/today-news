@@ -3,6 +3,9 @@ import MainLayout from "../Layout/MainLayout";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
+import AddArticle from "../components/AddArticle/AddArticle";
+import DashboardLayout from "../Layout/DashboardLayout";
+import AllUser from "../pages/Dashboard/AllUser/AllUser";
 
 export const routes = createBrowserRouter([
     {
@@ -13,10 +16,13 @@ export const routes = createBrowserRouter([
           path:'/',
           element:<Home/>
          },
+         {
+          path:'add-article',
+          element: <AddArticle></AddArticle>
+         }
          
       ]
     },
-
     {
       path:'login',
       element: <Login></Login>
@@ -24,6 +30,16 @@ export const routes = createBrowserRouter([
      {
       path:'register',
       element: <Register></Register>
+     },
+     {
+      path: 'dashboard',
+      element: <DashboardLayout></DashboardLayout>,
+      children:[
+        {
+          path: 'users',
+          element: <AllUser></AllUser>
+        }
+      ]
      }
   ]);
 
