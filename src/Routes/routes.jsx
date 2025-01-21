@@ -8,6 +8,8 @@ import DashboardLayout from "../Layout/DashboardLayout";
 import AllUser from "../pages/Dashboard/AllUser/AllUser";
 import AddPublisher from "../pages/Dashboard/AddPublisher/AddPublisher";
 import AllArticle from "../components/AllArticle/AllArticle";
+import MyArticles from "../components/MyArticles/MyArticles";
+import UpdateArticle from "../components/UpdateArticle/UpdateArticle";
 
 export const routes = createBrowserRouter([
     {
@@ -22,8 +24,15 @@ export const routes = createBrowserRouter([
           path:'add-article',
           element: <AddArticle></AddArticle>
          },
-        
-         
+         {
+          path:'my-article',
+          element: <MyArticles></MyArticles>
+         },
+         {
+          path:'update-article/:id',
+          element: <UpdateArticle></UpdateArticle>,
+          loader: ({ params }) => fetch(`http://localhost:5000/article/${params.id}`),
+          }         
       ]
     },
     {

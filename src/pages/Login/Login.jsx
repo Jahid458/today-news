@@ -2,8 +2,6 @@
 import { FcGoogle } from 'react-icons/fc';
 // import { TbFidgetSpinner } from 'react-icons/tb';
 import { Link, useNavigate} from 'react-router-dom';
-
-
 import toast from 'react-hot-toast';
 import useAuth from '../../hooks/useAuth';
 import { saveUser } from '../../api/utils';

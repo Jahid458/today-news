@@ -3,24 +3,26 @@ import { useForm } from "react-hook-form";
 import Select from "react-select";
 import Swal from "sweetalert2";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
-import useAuth from "../../hooks/useAuth";
+import {   useLoaderData } from "react-router-dom";
 
 const image_hosting_key = import.meta.env.VITE_IMGBB_API_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
-const AddArticle = () => {
-  const {user} = useAuth();
+const UpdateArticle = () => {
   const axiosPublic = useAxiosPublic();
-  const { register, handleSubmit, reset } = useForm();
+//   const { id } = useParams();
+  const defaultArticledata = useLoaderData(); // Load article data
+//   const navigate = useNavigate();
+  const { register, handleSubmit, setValue, reset } = useForm();
   const [tags, setTags] = useState([]);
   const [publishers, setPublishers] = useState([]);
   const [loadingPublishers, setLoadingPublishers] = useState(true);
 
-  // Fetch publishers from the API
+  // Fetch publishers
   useEffect(() => {
     const fetchPublishers = async () => {
       try {
-        const response = await axiosPublic.get("/publishers"); 
+        const response = await axiosPublic.get("/publishers");
         setPublishers(response.data);
         setLoadingPublishers(false);
       } catch (error) {
@@ -31,62 +33,80 @@ const AddArticle = () => {
 
     fetchPublishers();
   }, []);
-  console.log(publishers);
+
+  // Initialize form values with defaultArticledata
+  useEffect(() => {
+    if (defaultArticledata) {
+      setValue("title", defaultArticledata.title);
+      setValue("publisher", defaultArticledata.publisher);
+      setValue("description", defaultArticledata.description);
+      setValue("image", defaultArticledata.image);
+      setTags(defaultArticledata.tags.map((tag) => ({ value: tag, label: tag })));
+    }
+  }, [defaultArticledata, setValue]);
 
   const staticTags = [
     { value: "technology", label: "Technology" },
     { value: "health", label: "Health" },
     { value: "education", label: "Education" },
     { value: "sports", label: "Sports" },
-    { value: "Politics", label: "Politics" },
+    { value: "politics", label: "Politics" },
   ];
 
   const onSubmit = async (data) => {
-    console.log("Form Data:", data);
+    try {
+      // Upload image if it's updated
+      let imageUrl = data.image;
 
-    // Upload image and get URL
-    const imageFile = { image: data.image[0] };
-    const res = await axiosPublic.post(image_hosting_api, imageFile, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+      if (data.image[0]) {
+        const imageFile = { image: data.image[0] };
+        const res = await axiosPublic.post(image_hosting_api, imageFile, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
 
-    if (res.data.success) {
-      const articleData = {
+        if (res.data.success) {
+          imageUrl = res.data.data.display_url;
+        }
+      }
+
+      // Updated article data
+      const updatedData = {
         title: data.title,
         publisher: data.publisher,
         tags: tags.map((tag) => tag.value),
         description: data.description,
-        image: res.data.data.display_url,
-        status:'pending',
-        viewCount: 0,
-        isPremium: 'No',
-        authorName: user?.displayName,
-        authorPhoto: user?.photoURL,
-        publisherDate: new Date(),
-        email: user?.email
+        image: imageUrl,
       };
 
-      // Submit article data to the backend
-      const response = await axiosPublic.post("/add-article", articleData); 
-      if (response.data.insertedId) {
-        reset();
-        setTags([]);
+      // Send PATCH request to update the article
+      const response = await axiosPublic.patch(`/article/${defaultArticledata._id}`, updatedData);
+
+      if (response.data.modifiedCount > 0) {
         Swal.fire({
           position: "center",
           icon: "success",
-          title: `Article "${data.title}" has been submitted! Pending admin approval.`,
+          title: `Article "${data.title}" has been updated!`,
           showConfirmButton: false,
           timer: 1500,
         });
+        reset();
+         // navigate("/my-articles"); // Redirect to the article list
       }
+    } catch (error) {
+      console.error("Failed to update article:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Failed to update the article. Please try again.",
+      });
     }
   };
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg mt-16 mb-8">
-      <h2 className="text-2xl font-bold mb-4">Add New Article</h2>
-      
-      <form onSubmit={handleSubmit(onSubmit)}  className="space-y-4">
+      <h2 className="text-2xl font-bold mb-4">Update Article</h2>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Title */}
         <div className="form-control w-full">
           <label className="label">
@@ -111,13 +131,16 @@ const AddArticle = () => {
             <select
               {...register("publisher", { required: true })}
               className="select select-bordered w-full"
-              defaultValue=""
             >
               <option value="" disabled>
                 Select a Publisher
               </option>
               {publishers.map((publisher) => (
-                <option key={publisher._id} value={publisher.name}>
+                <option
+                  key={publisher._id}
+                  value={publisher.name}
+                  selected={defaultArticledata.publisher === publisher.name}
+                >
                   {publisher.name}
                 </option>
               ))}
@@ -145,11 +168,18 @@ const AddArticle = () => {
             <span className="label-text">Image*</span>
           </label>
           <input
-            {...register("image", { required: true })}
+            {...register("image")}
             type="file"
             className="file-input w-full"
             accept="image/*"
           />
+          {defaultArticledata.image && (
+            <img
+              src={defaultArticledata.image}
+              alt="Current article"
+              className="mt-2 h-24 w-24 rounded"
+            />
+          )}
         </div>
 
         {/* Description */}
@@ -166,11 +196,11 @@ const AddArticle = () => {
 
         {/* Submit Button */}
         <button type="submit" className="btn btn-primary">
-          Submit Article
+          Update Article
         </button>
       </form>
     </div>
   );
 };
-  
-export default AddArticle; 
+
+export default UpdateArticle;

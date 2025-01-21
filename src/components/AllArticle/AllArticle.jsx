@@ -56,15 +56,7 @@ const AllArticles = () => {
 //     }
 //   };
 
-//   const handleDelete = async (id) => {
-//     try {
-//       await axiosPublic.delete(`/articles/${id}`);
-//       setArticles((prev) => prev.filter((article) => article._id !== id));
-//       Swal.fire("Deleted", "Article Deleted Successfully", "success");
-//     } catch (error) {
-//       console.error("Failed to delete article:", error);
-//     }
-//   };
+
 
 const handleMakePremium = (Premiun,id) =>{
     console.log(id);
