@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import {
   FaHome,
   FaPlus,
-  FaList,
   FaSignOutAlt,
   FaSignInAlt,
   FaUserPlus,

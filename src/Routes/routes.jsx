@@ -6,6 +6,7 @@ import Register from "../pages/Register/Register";
 import AddArticle from "../components/AddArticle/AddArticle";
 import DashboardLayout from "../Layout/DashboardLayout";
 import AllUser from "../pages/Dashboard/AllUser/AllUser";
+import AddPublisher from "../pages/Dashboard/AddPublisher/AddPublisher";
 
 export const routes = createBrowserRouter([
     {
@@ -38,6 +39,10 @@ export const routes = createBrowserRouter([
         {
           path: 'users',
           element: <AllUser></AllUser>
+        },
+        {
+          path:'publisher',
+          element: <AddPublisher></AddPublisher>
         }
       ]
      }

@@ -58,7 +58,7 @@ const DashboardLayout = () => {
             </li>
             <li>
               <NavLink
-                to="/dashboard/add-publisher"
+                to="/dashboard/publisher"
                 className={({ isActive }) =>
                   `flex items-center px-6 py-3 text-gray-700 hover:bg-gray-200 ${
                     isActive ? "bg-gray-200 font-bold" : ""
