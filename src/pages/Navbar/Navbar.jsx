@@ -6,6 +6,7 @@ import {
   FaSignInAlt,
   FaUserPlus,
   FaTachometerAlt,
+  FaNewspaper,
 } from "react-icons/fa";
 import useAuth from "../../hooks/useAuth";
 import { MdPlaylistAddCheckCircle } from "react-icons/md";
@@ -30,12 +31,16 @@ const Navbar = () => {
           <Link to="/add-article" className="text-gray-700 hover:text-orange-600">
             <FaPlus className="inline mr-1" /> Add Articles
           </Link>
+          <Link to="/all-article" className="text-gray-700 hover:text-orange-600">
+            <FaNewspaper className="inline mr-1" /> All Articles
+          </Link>
           <Link to="/dashboard" className="text-gray-700 hover:text-orange-600">
             <FaTachometerAlt className="inline mr-1" /> Dashboard
           </Link>
           <Link to="/my-article" className="text-gray-700 hover:text-orange-600">
             <MdPlaylistAddCheckCircle className="inline mr-1" /> My Article
           </Link>
+         
           <Link to="/premium-article" className="text-gray-700 hover:text-orange-600">
             <GiBoxUnpacking className="inline mr-1" /> Premium Article
           </Link>
@@ -107,6 +112,11 @@ const Navbar = () => {
               <li>
                 <Link to="/add-articles">
                   <FaPlus className="mr-2" /> Add Articles
+                </Link>
+              </li>
+              <li>
+                <Link to="/all-articles">
+                  <FaNewspaper className="mr-2" /> All Articles
                 </Link>
               </li>
               <li>

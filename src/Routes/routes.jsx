@@ -7,6 +7,7 @@ import AddArticle from "../components/AddArticle/AddArticle";
 import DashboardLayout from "../Layout/DashboardLayout";
 import AllUser from "../pages/Dashboard/AllUser/AllUser";
 import AddPublisher from "../pages/Dashboard/AddPublisher/AddPublisher";
+import AllArticle from "../components/AllArticle/AllArticle";
 
 export const routes = createBrowserRouter([
     {
@@ -20,7 +21,8 @@ export const routes = createBrowserRouter([
          {
           path:'add-article',
           element: <AddArticle></AddArticle>
-         }
+         },
+        
          
       ]
     },
@@ -43,7 +45,11 @@ export const routes = createBrowserRouter([
         {
           path:'publisher',
           element: <AddPublisher></AddPublisher>
-        }
+        },
+        {
+          path: 'all-articles',
+          element: <AllArticle></AllArticle>
+       }
       ]
      }
   ]);

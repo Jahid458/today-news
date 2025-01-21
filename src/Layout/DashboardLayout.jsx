@@ -45,7 +45,7 @@ const DashboardLayout = () => {
             </li>
             <li>
               <NavLink
-                to="/dashboard/articles"
+                to="/dashboard/all-articles"
                 className={({ isActive }) =>
                   `flex items-center px-6 py-3 text-gray-700 hover:bg-gray-200 ${
                     isActive ? "bg-gray-200 font-bold" : ""
@@ -74,12 +74,12 @@ const DashboardLayout = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col ">
         {/* Navbar */}
         <Navbar />
 
         {/* Content Area */}
-        <main className="p-6">
+        <main className="p-6 ">
           <Outlet />
         </main>
 
