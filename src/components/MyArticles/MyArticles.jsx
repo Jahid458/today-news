@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxiosPublic from "../../hooks/useAxiosPublic";
 import useAuth from "../../hooks/useAuth";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const MyArticles = () => {
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
 
 
@@ -13,7 +13,7 @@ const MyArticles = () => {
   const { data: articles = []} = useQuery({
     queryKey: ["articles", user?.email],
     queryFn: async () => {
-      const res = await axiosPublic.get(`/articles/${user?.email}`);
+      const res = await axiosSecure.get(`/articles/${user?.email}`);
       return res.data;
     },
   });

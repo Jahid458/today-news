@@ -1,40 +1,36 @@
-import { useState, useEffect } from "react";
+
 import Swal from "sweetalert2";
-import useAxiosPublic from "../../../hooks/useAxiosPublic";
+// import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
 const AllArticles = () => {
-  const [articles, setArticles] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
 
-  useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        const response = await axiosPublic.get("/all-articles");
-        setArticles(response.data);
-      } catch (error) {
-        console.error("Failed to fetch articles:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    fetchArticles();
-  }, []);
+  // Fetch articles using React Query
+  const { data: articles = [], loading, refetch} = useQuery({
+    queryKey: ["articles"],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/all-articles`);
+      return res.data;
+    },
+  });
 
   const handleApprove = (approve, id) => {
-    axiosPublic.patch(`/article-status/${id}`, {
+    axiosSecure.patch(`/article-status/${id}`, {
       status: approve,
-    });
+    }).then(()=> refetch());
   };
 
   const handleMakePremium = (Premium, id) => {
-    axiosPublic.patch(`/ispremium/${id}`, {
+    axiosSecure.patch(`/ispremium/${id}`, {
       status: Premium,
-    });
+    }).then(()=> refetch())
   };
 
   const handleDelete = async (id) => {
+ 
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -45,8 +41,9 @@ const AllArticles = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosPublic.delete(`/article-delete/${id}`).then((res) => {
+        axiosSecure.delete(`/article-delete/${id}`).then((res) => {
           if (res.data.deletedCount > 0) {
+            refetch();
             Swal.fire({
               title: "Deleted!",
               text: "Your file has been deleted.",

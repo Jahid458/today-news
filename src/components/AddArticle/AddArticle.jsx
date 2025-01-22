@@ -2,15 +2,17 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Select from "react-select";
 import Swal from "sweetalert2";
-import useAxiosPublic from "../../hooks/useAxiosPublic";
+// import useAxiosPublic from "../../hooks/useAxiosPublic";
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from './../../hooks/useAxiosSecure';
+
 
 const image_hosting_key = import.meta.env.VITE_IMGBB_API_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 const AddArticle = () => {
   const {user} = useAuth();
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
   const { register, handleSubmit, reset } = useForm();
   const [tags, setTags] = useState([]);
   const [publishers, setPublishers] = useState([]);
@@ -20,7 +22,7 @@ const AddArticle = () => {
   useEffect(() => {
     const fetchPublishers = async () => {
       try {
-        const response = await axiosPublic.get("/publishers"); 
+        const response = await axiosSecure.get("/publishers"); 
         setPublishers(response.data);
         setLoadingPublishers(false);
       } catch (error) {
@@ -46,7 +48,7 @@ const AddArticle = () => {
 
     // Upload image and get URL
     const imageFile = { image: data.image[0] };
-    const res = await axiosPublic.post(image_hosting_api, imageFile, {
+    const res = await axiosSecure.post(image_hosting_api, imageFile, {
       headers: { "Content-Type": "multipart/form-data" },
     });
 
@@ -67,7 +69,7 @@ const AddArticle = () => {
       };
 
       // Submit article data to the backend
-      const response = await axiosPublic.post("/add-article", articleData); 
+      const response = await axiosSecure.post("/add-article", articleData); 
       if (response.data.insertedId) {
         reset();
         setTags([]);
