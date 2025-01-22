@@ -1,8 +1,9 @@
+import TrendingArticles from "../../components/TrendingArticles/TrendingArticles";
 
 const Home = () => {
     return (
         <div className="mt-20">
-           <h1>Hello</h1>
+           <TrendingArticles></TrendingArticles>
         </div>
     );
 };

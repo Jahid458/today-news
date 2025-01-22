@@ -135,7 +135,7 @@ const AllArticles = () => {
               </p>
 
               {/* Action Buttons */}
-              <div className="card-actions justify-end mt-4">
+              <div className="card-actions mt-4">
                 <button
                   onClick={() => handleApprove("approved", article._id)}
                   className="btn btn-sm btn-success"

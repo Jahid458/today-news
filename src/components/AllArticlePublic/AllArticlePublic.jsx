@@ -30,6 +30,17 @@ const AllArticlePublic = () => {
     refetch();
   };
 
+  const handleViewCount = (id) =>{
+    
+    console.log(id);
+    axiosPublic.patch(`/viewCount/${id}`)
+    .then(res => {
+        refetch()
+        console.log(res)
+    })
+
+  }
+
   return (
     <div className="p-5">
       <h2 className="text-2xl font-bold mb-4">All Articles</h2>
@@ -92,11 +103,13 @@ const AllArticlePublic = () => {
             <p className="text-gray-700 mb-4 mt-1">{article.description}</p>
             <Link to={`/article-details/${article._id}`}>
               <button
+                onClick={() => handleViewCount(article._id) }
                 className={`btn btn-primary text-white px-4 py-2 ${
                   article.isPremium === "Yes" && !user?.subscription
                     ? "btn-disabled opacity-50"
                     : ""
                 }`}
+                
                 //&& !user?.subscription
                 disabled={article.isPremium === "Yes" }
               >
