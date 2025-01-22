@@ -46,7 +46,7 @@ const TrendingArticles = () => {
 
   return (
     <div className="w-11/12 mx-auto my-9">
-      <h2 className="text-3xl font-bold mb-6 text-center">Trending Articles</h2>
+      <h2 className="text-3xl font-bold mb-6 text-center text-orange-600">Trending Articles</h2>
       <Swiper
         spaceBetween={20}
         pagination={{
@@ -56,13 +56,13 @@ const TrendingArticles = () => {
         className="mySwiper"
         breakpoints={{
           640: {
-            slidesPerView: 1, // 1 slide on small screens (mobile)
+            slidesPerView: 1, 
           },
           768: {
-            slidesPerView: 2, // 2 slides on medium screens (tablet)
+            slidesPerView: 2, 
           },
           1024: {
-            slidesPerView: 3, // 3 slides on large screens (desktop)
+            slidesPerView: 3, 
           },
         }}
       >
