@@ -31,7 +31,7 @@ const Navbar = () => {
           <Link to="/add-article" className="text-gray-700 hover:text-orange-600">
             <FaPlus className="inline mr-1" /> Add Articles
           </Link>
-          <Link to="/all-article" className="text-gray-700 hover:text-orange-600">
+          <Link to="/public-all-article" className="text-gray-700 hover:text-orange-600">
             <FaNewspaper className="inline mr-1" /> All Articles
           </Link>
           <Link to="/dashboard" className="text-gray-700 hover:text-orange-600">

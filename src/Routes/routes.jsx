@@ -7,9 +7,11 @@ import AddArticle from "../components/AddArticle/AddArticle";
 import DashboardLayout from "../Layout/DashboardLayout";
 import AllUser from "../pages/Dashboard/AllUser/AllUser";
 import AddPublisher from "../pages/Dashboard/AddPublisher/AddPublisher";
-import AllArticle from "../components/AllArticle/AllArticle";
+
 import MyArticles from "../components/MyArticles/MyArticles";
 import UpdateArticle from "../components/UpdateArticle/UpdateArticle";
+import AllArticles from "../pages/Dashboard/AllArticle/AllArticle";
+import AllArticlePublic from "../components/AllArticlePublic/AllArticlePublic";
 
 export const routes = createBrowserRouter([
     {
@@ -23,6 +25,10 @@ export const routes = createBrowserRouter([
          {
           path:'add-article',
           element: <AddArticle></AddArticle>
+         },
+         {
+            path:'public-all-article',
+            element:<AllArticlePublic></AllArticlePublic>
          },
          {
           path:'my-article',
@@ -57,7 +63,7 @@ export const routes = createBrowserRouter([
         },
         {
           path: 'all-articles',
-          element: <AllArticle></AllArticle>
+          element: <AllArticles></AllArticles>
        }
       ]
      }

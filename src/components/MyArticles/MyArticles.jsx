@@ -10,7 +10,7 @@ const MyArticles = () => {
 
 
   // Fetch articles using React Query
-  const { data: articles = [], refetch } = useQuery({
+  const { data: articles = []} = useQuery({
     queryKey: ["articles", user?.email],
     queryFn: async () => {
       const res = await axiosPublic.get(`/articles/${user?.email}`);
