@@ -12,6 +12,7 @@ import MyArticles from "../components/MyArticles/MyArticles";
 import UpdateArticle from "../components/UpdateArticle/UpdateArticle";
 import AllArticles from "../pages/Dashboard/AllArticle/AllArticle";
 import AllArticlePublic from "../components/AllArticlePublic/AllArticlePublic";
+import ArticleDetails from "../components/ArticleDetails/ArticleDetails";
 
 export const routes = createBrowserRouter([
     {
@@ -30,9 +31,15 @@ export const routes = createBrowserRouter([
             path:'public-all-article',
             element:<AllArticlePublic></AllArticlePublic>
          },
+
          {
           path:'my-article',
           element: <MyArticles></MyArticles>
+         },
+         {
+            path:'article-details/:id',
+            element: <ArticleDetails></ArticleDetails>,
+            loader: ({ params }) => fetch(`http://localhost:5000/article/${params.id}`),
          },
          {
           path:'update-article/:id',

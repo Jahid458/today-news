@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import useAuth from "../../hooks/useAuth";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const MyArticles = () => {
   const axiosPublic = useAxiosPublic();
@@ -20,14 +20,14 @@ const MyArticles = () => {
 
   return (
     <div className="p-5">
-      <h2 className="text-2xl font-bold mb-4">My Articles</h2>
+      <h2 className="text-2xl font-bold mb-4 text-center">My Articles</h2>
       <div className="overflow-x-auto">
         <table className="table-auto w-full border-collapse border border-gray-300">
           <thead>
             <tr className="bg-gray-200">
               <th className="border border-gray-300 px-4 py-2">#</th>
               <th className="border border-gray-300 px-4 py-2">Title</th>
-              <th className="border border-gray-300 px-4 py-2">Details</th>
+             <th className="border border-gray-300 px-4 py-2">Details</th>
               <th className="border border-gray-300 px-4 py-2">Status</th>
               <th className="border border-gray-300 px-4 py-2">Is Premium</th>
               <th className="border border-gray-300 px-4 py-2">Update</th>
@@ -40,9 +40,12 @@ const MyArticles = () => {
                 <td className="border border-gray-300 px-4 py-2">{index + 1}</td>
                 <td className="border border-gray-300 px-4 py-2">{article.title}</td>
                 <td className="border border-gray-300 px-4 py-2">
+                  <Link to={`/article-details/${article._id}`}>
                   <button className="px-3 py-1 btn btn-primary text-white rounded">
                     Details
                   </button>
+                  </Link>
+                 
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
                   {article.status}

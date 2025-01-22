@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import Select from "react-select";
 import Swal from "sweetalert2";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
-import {   useLoaderData } from "react-router-dom";
+import {   useLoaderData, useNavigate } from "react-router-dom";
 
 const image_hosting_key = import.meta.env.VITE_IMGBB_API_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -12,7 +12,7 @@ const UpdateArticle = () => {
   const axiosPublic = useAxiosPublic();
 //   const { id } = useParams();
   const defaultArticledata = useLoaderData(); // Load article data
-//   const navigate = useNavigate();
+  const navigate = useNavigate();
   const { register, handleSubmit, setValue, reset } = useForm();
   const [tags, setTags] = useState([]);
   const [publishers, setPublishers] = useState([]);
@@ -90,7 +90,7 @@ const UpdateArticle = () => {
           timer: 1500,
         });
         reset();
-         // navigate("/my-articles"); // Redirect to the article list
+         navigate("/my-article"); // Redirect to the article list
       }
     } catch (error) {
       console.error("Failed to update article:", error);
