@@ -9,7 +9,7 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 const Publisher = () => {
   const axiosPublic = useAxiosPublic();
 
-  const { data: publishers = [], refetch } = useQuery({
+  const { data: publishers = [] } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
       const res = await axiosPublic.get("/publishers");

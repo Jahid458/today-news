@@ -14,11 +14,11 @@ const DashboardLayout = () => {
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
       <div
-        className={`fixed lg:static top-0 left-0 bg-white shadow-lg h-full w-64 transition-transform transform ${
+        className={`fixed lg:static top-0 left-0 bg-white shadow-lg min-h-screen w-64 transition-transform transform ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } lg:translate-x-0 z-50`}
       >
-        <div className="flex items-center justify-between px-6 py-4 bg-blue-500 text-white">
+        <div className="flex items-center  justify-between px-6 py-4 bg-blue-500 text-white">
           <h2 className="text-xl font-bold">Dashboard</h2>
           <button
             className="lg:hidden text-white"
@@ -79,7 +79,7 @@ const DashboardLayout = () => {
         <Navbar />
 
         {/* Content Area */}
-        <main className="p-6 ">
+        <main className=" py-6 ">
           <Outlet />
         </main>
 

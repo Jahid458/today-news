@@ -1,17 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { FaUsers } from "react-icons/fa";
-import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 
 const AllUsers = () => {
-    const axiosPublic = useAxiosPublic();
+    const axiosSecure = useAxiosSecure();
 
   // Fetch users
   const { data: users = [], refetch, isLoading, isError } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const res = await axiosPublic.get("/users");
+      const res = await axiosSecure.get("/users");
       return res.data;
     },
   });
@@ -19,11 +20,23 @@ const AllUsers = () => {
 
 
   const handleMakeAdmin = (role , id) =>{
-    console.log('hello');
-    axiosPublic.patch(`/user/admin/${id}`,{
+    axiosSecure.patch(`/user/admin/${id}`,{
         role: role
     })
-    .then( res => console.log(res))
+    .then( res =>{ 
+      console.log(res)
+      if(res.data.modifiedCount > 0){
+        refetch();
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: 'Succesfully Admin Now',
+            showConfirmButton: false,
+            timer: 1500
+          });   
+    }
+    
+    })
     
   }
 

@@ -98,7 +98,7 @@ const AllArticlePublic = () => {
               alt={article.title}
               className="w-full h-48 object-cover rounded-md mb-4"
             />
-            <h3 className="text-md font-bold">{article.title}</h3>
+            <h3 className="text-xl font-bold">{article.title}</h3>
             <p className="text-gray-600 badge  badge-outline mt-2">{article.publisher}</p>
             <p className="text-gray-700 mb-4 mt-1">{article.description}</p>
             <Link to={`/article-details/${article._id}`}>
