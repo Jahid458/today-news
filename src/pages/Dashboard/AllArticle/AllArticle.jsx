@@ -1,15 +1,12 @@
-
 import Swal from "sweetalert2";
-// import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 
 const AllArticles = () => {
   const axiosSecure = useAxiosSecure();
 
-
   // Fetch articles using React Query
-  const { data: articles = [], loading, refetch} = useQuery({
+  const { data: articles = [], loading, refetch } = useQuery({
     queryKey: ["articles"],
     queryFn: async () => {
       const res = await axiosSecure.get(`/all-articles`);
@@ -18,19 +15,14 @@ const AllArticles = () => {
   });
 
   const handleApprove = (approve, id) => {
-    axiosSecure.patch(`/article-status/${id}`, {
-      status: approve,
-    }).then(()=> refetch());
+    axiosSecure.patch(`/article-status/${id}`, { status: approve }).then(() => refetch());
   };
 
   const handleMakePremium = (Premium, id) => {
-    axiosSecure.patch(`/ispremium/${id}`, {
-      status: Premium,
-    }).then(()=> refetch())
+    axiosSecure.patch(`/ispremium/${id}`, { status: Premium }).then(() => refetch());
   };
 
-  const handleDelete = async (id) => {
- 
+  const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -44,11 +36,7 @@ const AllArticles = () => {
         axiosSecure.delete(`/article-delete/${id}`).then((res) => {
           if (res.data.deletedCount > 0) {
             refetch();
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your file has been deleted.",
-              icon: "success",
-            });
+            Swal.fire("Deleted!", "Your file has been deleted.", "success");
           }
         });
       }
@@ -64,22 +52,22 @@ const AllArticles = () => {
       <h1 className="text-3xl font-bold mb-6 text-center">All Articles</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {articles.map((article) => (
-          <div key={article._id} className="card bg-white shadow-md">
+          <div key={article._id} className="card bg-white shadow-md p-4">
             {/* Article Image */}
-            <figure>
+            <figure className="mb-4">
               <img
                 src={article.image}
                 alt={article.title}
-                className="h-48 w-full object-cover"
+                className="h-48 w-full object-cover rounded"
               />
             </figure>
 
             {/* Card Content */}
-            <div className="card-body">
-              <h2 className="card-title">{article.title}</h2>
+            <div className="card-body flex flex-col justify-between">
+              <h2 className="card-title mb-2">{article.title}</h2>
 
               {/* Author Section */}
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-4 mb-2">
                 <img
                   src={article.authorPhoto}
                   alt={article.authorName}
@@ -92,18 +80,18 @@ const AllArticles = () => {
               </div>
 
               {/* Publisher and Date */}
-              <p className="text-sm text-gray-500 mt-2">
+              <p className="text-sm text-gray-500">
                 <strong>Publisher:</strong> {article.publisher}
               </p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 mb-2">
                 <strong>Posted:</strong>{" "}
                 {new Date(article.publisherDate).toLocaleDateString()}
               </p>
 
               {/* Tags */}
-              <div className="text-sm text-gray-500 mt-2">
+              <div className="text-sm text-gray-500 mb-4">
                 <strong>Tags:</strong>
-                <span className="px-2 gap-2 mt-1">
+                <div className="flex flex-wrap gap-2 mt-1">
                   {article.tags.map((tag, index) => (
                     <span
                       key={index}
@@ -112,11 +100,11 @@ const AllArticles = () => {
                       {tag}
                     </span>
                   ))}
-                </span>
+                </div>
               </div>
 
               {/* Status */}
-              <p className="text-sm text-gray-500 mt-2">
+              <p className="text-sm text-gray-500 mb-4">
                 <strong>Status:</strong>{" "}
                 <span
                   className={`badge ${
@@ -132,7 +120,7 @@ const AllArticles = () => {
               </p>
 
               {/* Action Buttons */}
-              <div className="card-actions mt-4">
+              <div className="card-actions flex flex-wrap gap-2">
                 <button
                   onClick={() => handleApprove("approved", article._id)}
                   className="btn btn-sm btn-success"

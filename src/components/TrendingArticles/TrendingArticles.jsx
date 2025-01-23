@@ -68,7 +68,7 @@ const TrendingArticles = () => {
       >
         {trendingArticles.map((article) => (
           <SwiperSlide key={article._id}>
-            <div className="card bg-white h-[500px] shadow-lg rounded-lg overflow-hidden">
+            <div className="card bg-white h-[400px] shadow-lg rounded-lg overflow-hidden">
               <figure>
                 <img
                   src={article.image}
@@ -76,22 +76,22 @@ const TrendingArticles = () => {
                   className="h-48 w-full object-cover"
                 />
               </figure>
-              <div className="card-body p-4">
+              <div className="card-body p-3">
                 {/* Title */}
                 <h3 className="text-lg font-bold">{article.title}</h3>
 
                 {/* Publisher */}
-                <p className="text-sm text-gray-500 mt-2">
+                <p className="text-sm text-gray-500 ">
                   <strong>Publisher:</strong> {article.publisher}
                 </p>
 
                 {/* View Count */}
-                <p className="text-sm text-green-600 mt-1">
+                <p className="text-sm text-green-600">
                   <strong>Views:</strong> {article.viewCount}
                 </p>
 
                 {/* Tags */}
-                <div className="flex flex-wrap gap-2 mt-4">
+                <div className="flex flex-wrap gap-2">
                   {article.tags.map((tag, index) => (
                     <span
                       key={index}

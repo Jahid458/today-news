@@ -13,6 +13,7 @@ import UpdateArticle from "../components/UpdateArticle/UpdateArticle";
 import AllArticles from "../pages/Dashboard/AllArticle/AllArticle";
 import AllArticlePublic from "../components/AllArticlePublic/AllArticlePublic";
 import ArticleDetails from "../components/ArticleDetails/ArticleDetails";
+import Profile from "../pages/Dashboard/Profile/Profile";
 
 export const routes = createBrowserRouter([
     {
@@ -65,12 +66,17 @@ export const routes = createBrowserRouter([
           element: <AllUser></AllUser>
         },
         {
+          path: 'all-articles',
+          element: <AllArticles></AllArticles>
+       },
+        {
           path:'publisher',
           element: <AddPublisher></AddPublisher>
         },
-        {
-          path: 'all-articles',
-          element: <AllArticles></AllArticles>
+       
+       {
+        path:'profile',
+        element: <Profile></Profile>
        }
       ]
      }

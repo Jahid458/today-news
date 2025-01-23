@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const MyArticles = () => {
   const axiosSecure = useAxiosSecure();
@@ -10,13 +11,35 @@ const MyArticles = () => {
 
 
   // Fetch articles using React Query
-  const { data: articles = []} = useQuery({
+  const { data: articles = [], refetch} = useQuery({
     queryKey: ["articles", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/articles/${user?.email}`);
       return res.data;
     },
   });
+
+
+    const handleDelete = (id) => {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axiosSecure.delete(`/article-delete/${id}`).then((res) => {
+            if (res.data.deletedCount > 0) {
+              refetch();
+              Swal.fire("Deleted!", "Your file has been deleted.", "success");
+            }
+          });
+        }
+      });
+    };
 
   return (
     <div className="p-5">
@@ -60,9 +83,15 @@ const MyArticles = () => {
                   </button></Link>
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  <button className="px-3 py-1 bg-red-500 text-white rounded">
+              
+                  <button
+                   onClick={() => handleDelete(article._id)}
+                  className="px-3 py-1 bg-red-500 text-white rounded">
+                    
                     Delete
                   </button>
+             
+                  
                 </td>
               </tr>
             ))}

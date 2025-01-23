@@ -10,7 +10,7 @@ const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_ke
 
 const UpdateArticle = () => {
   const axiosPublic = useAxiosPublic();
-//   const { id } = useParams();
+  // const { id } = useParams();
   const defaultArticledata = useLoaderData(); // Load article data
   const navigate = useNavigate();
   const { register, handleSubmit, setValue, reset } = useForm();
@@ -80,7 +80,6 @@ const UpdateArticle = () => {
 
       // Send PATCH request to update the article
       const response = await axiosPublic.patch(`/article/${defaultArticledata._id}`, updatedData);
-
       if (response.data.modifiedCount > 0) {
         Swal.fire({
           position: "center",
@@ -90,7 +89,7 @@ const UpdateArticle = () => {
           timer: 1500,
         });
         reset();
-         navigate("/my-article"); // Redirect to the article list
+         navigate("/my-article"); 
       }
     } catch (error) {
       console.error("Failed to update article:", error);

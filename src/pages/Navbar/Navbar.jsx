@@ -11,17 +11,22 @@ import {
 import useAuth from "../../hooks/useAuth";
 import { MdPlaylistAddCheckCircle } from "react-icons/md";
 import { GiBoxUnpacking } from "react-icons/gi";
+import logo from '/todayNews.jpeg'
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
-      <div className="container mx-auto px-4 flex justify-between items-center h-16">
+    <nav className="bg-orange-300 shadow-md sticky top-0 z-50">
+      <div className="container mx-auto px-4 flex justify-between items-center h-24">
+      
         {/* Logo Section */}
-        <Link to="/" className="text-2xl font-bold text-orange-600">
-          Today News
+       <div className="flex  justify-center items-center gap-2">
+       <Link to="/" className="lg:text-2xl text-xl font-bold text-white">
+          News
         </Link>
+       <img src={logo} className="lg:w-20 w-10  rounded-full" /> 
+       </div>
 
         {/* Desktop Menu */}
         <div className="hidden lg:flex space-x-6">
@@ -50,7 +55,7 @@ const Navbar = () => {
         <div className="hidden lg:flex items-center space-x-4">
           {user ? (
             <>
-              <Link to="/profile">
+              <Link to="/dashboard/profile">
                 <img
                   src={user?.photoURL || "https://via.placeholder.com/40"}
                   alt="User Profile"
