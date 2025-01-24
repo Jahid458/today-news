@@ -88,14 +88,14 @@ const AddPublisher = () => {
             name="publisherLogo"
             {...register("publisherLogo", { required: true })}
             accept="image/*"
-            className="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border file:border-orange-300 file:text-orange-600 file:bg-blue-50 hover:file:bg-blue-100 border p-2 rounded-lg
+            className="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border file:border-green-300 file:text-green-600 file:bg-blue-50 hover:file:bg-blue-100 border p-2 rounded-lg
             "
           />
         </div>
 
         <button
           type="submit"
-          className="w-full py-3 bg-gradient-to-r from-orange-300 to-orange-600 text-white font-semibold rounded-lg shadow-md hover:from-orange-500 hover:to-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-1"
+          className="w-full py-3 bg-gradient-to-r from-green-300 to-green-600 text-white font-semibold rounded-lg shadow-md hover:from-green-500 hover:to-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-1"
         >
           Submit
         </button>

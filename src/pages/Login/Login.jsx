@@ -1,7 +1,7 @@
 
 import { FcGoogle } from 'react-icons/fc';
 // import { TbFidgetSpinner } from 'react-icons/tb';
-import { Link, useNavigate} from 'react-router-dom';
+import { Link, useLocation, useNavigate} from 'react-router-dom';
 import toast from 'react-hot-toast';
 import useAuth from '../../hooks/useAuth';
 import { saveUser } from '../../api/utils';
@@ -12,7 +12,8 @@ const Login = () => {
 
     const {signInWithGoogle,signIn} = useAuth();
     const navigate = useNavigate();
-
+      const location = useLocation();
+      console.log(location.state);
     const handleSubmit = async event => {
         event.preventDefault()
         const form = event.target
@@ -22,7 +23,7 @@ const Login = () => {
         try {
           //User Login
           await signIn(email, password)
-          navigate('/')
+          navigate(`${location?.state?.from ? location?.state?.from : '/'}`)
           toast.success('Login Successful')
         } catch (err) {
           console.log(err)
@@ -37,16 +38,14 @@ const Login = () => {
         //save userInfo in db if the user is new 
          await saveUser(data?.user)
             console.log(data.user);
-          navigate('/')
+          navigate(`${location?.state?.from ? location?.state?.from : '/'}`)
           toast.success('Signup Successful')
         } catch (err) {
           console.log(err)
           toast.error(err?.message)
         }
       }
-
-
-
+      
     return (
         <div className='flex justify-center items-center min-h-screen bg-white'>
         <div className='flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900'>
@@ -101,11 +100,7 @@ const Login = () => {
                 className='bg-green-500 w-full rounded-md py-3 text-white'
               >
                 Login
-                {/* {loading ? (
-                  <TbFidgetSpinner className='animate-spin m-auto' />
-                ) : (
-                  'Continue'
-                )} */}
+            
               </button>
             </div>
           </form>

@@ -16,6 +16,8 @@ import ArticleDetails from "../components/ArticleDetails/ArticleDetails";
 import Profile from "../pages/Dashboard/Profile/Profile";
 import PrivateRoute from './PrivateRoute';
 import Subscription from "../components/Subscription/Subscription";
+import AdminRoute from "./AdminRoute";
+
 
 {/* <PrivateRoute></PrivateRoute>  */}
 export const routes = createBrowserRouter([
@@ -71,19 +73,19 @@ export const routes = createBrowserRouter([
      },
      {
       path: 'dashboard',
-      element: <DashboardLayout></DashboardLayout>,
+      element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
       children:[
         {
           path: 'users',
-          element: <AllUser></AllUser>
+          element: <AdminRoute><AllUser></AllUser></AdminRoute>
         },
         {
           path: 'all-articles',
-          element: <AllArticles></AllArticles>
+          element: <AdminRoute><AllArticles></AllArticles></AdminRoute>
        },
         {
           path:'publisher',
-          element: <AddPublisher></AddPublisher>
+          element: <AdminRoute><AddPublisher></AddPublisher></AdminRoute>
         },
        
       

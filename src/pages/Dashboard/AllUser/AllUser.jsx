@@ -35,9 +35,7 @@ const AllUsers = () => {
             timer: 1500
           });   
     }
-    
     })
-    
   }
 
 
@@ -74,9 +72,9 @@ const AllUsers = () => {
                   ) : (
                     <button
                         onClick={() => handleMakeAdmin('admin', user._id)}
-                      className="btn btn-lg bg-orange-500"
+                      className="btn bg-green-600"
                     >
-                      <FaUsers className="text-white text-2xl" />
+                      Make Admin
                     </button>
                   )}
                 </td>
