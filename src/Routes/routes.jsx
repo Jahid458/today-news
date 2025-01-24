@@ -14,7 +14,10 @@ import AllArticles from "../pages/Dashboard/AllArticle/AllArticle";
 import AllArticlePublic from "../components/AllArticlePublic/AllArticlePublic";
 import ArticleDetails from "../components/ArticleDetails/ArticleDetails";
 import Profile from "../pages/Dashboard/Profile/Profile";
+import PrivateRoute from './PrivateRoute';
+import Subscription from "../components/Subscription/Subscription";
 
+{/* <PrivateRoute></PrivateRoute>  */}
 export const routes = createBrowserRouter([
     {
       path: "/",
@@ -26,7 +29,7 @@ export const routes = createBrowserRouter([
          },
          {
           path:'add-article',
-          element: <AddArticle></AddArticle>
+          element: <PrivateRoute><AddArticle></AddArticle></PrivateRoute> 
          },
          {
             path:'public-all-article',
@@ -35,17 +38,26 @@ export const routes = createBrowserRouter([
 
          {
           path:'my-article',
-          element: <MyArticles></MyArticles>
+          element: <PrivateRoute><MyArticles></MyArticles></PrivateRoute>  
          },
          {
             path:'article-details/:id',
-            element: <ArticleDetails></ArticleDetails>,
+            element:  <PrivateRoute><ArticleDetails></ArticleDetails></PrivateRoute>,
             loader: ({ params }) => fetch(`http://localhost:5000/article/${params.id}`),
          },
          {
           path:'update-article/:id',
           element: <UpdateArticle></UpdateArticle>,
           loader: ({ params }) => fetch(`http://localhost:5000/article/${params.id}`),
+          },
+          {
+            path:'subscription',
+            element:<PrivateRoute><Subscription></Subscription></PrivateRoute>
+          },
+           
+          {
+        path:'profile',
+        element: <PrivateRoute><Profile></Profile></PrivateRoute> 
           }         
       ]
     },
@@ -74,10 +86,7 @@ export const routes = createBrowserRouter([
           element: <AddPublisher></AddPublisher>
         },
        
-       {
-        path:'profile',
-        element: <Profile></Profile>
-       }
+      
       ]
      }
   ]);

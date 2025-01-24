@@ -12,41 +12,45 @@ import useAuth from "../../hooks/useAuth";
 import { MdPlaylistAddCheckCircle } from "react-icons/md";
 import { GiBoxUnpacking } from "react-icons/gi";
 import logo from '/todayNews.jpeg'
+import useAdmin from "../../hooks/useAdmin";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
+  const [isAdmin] = useAdmin()
 
   return (
-    <nav className="bg-orange-300 shadow-md sticky top-0 z-50">
+    <nav className="bg-black shadow-md sticky top-0 z-50 ">
       <div className="container mx-auto px-4 flex justify-between items-center h-24">
       
         {/* Logo Section */}
-       <div className="flex  justify-center items-center gap-2">
-       <Link to="/" className="lg:text-2xl text-xl font-bold text-white">
+       <Link to="/" className="flex  justify-center items-center gap-2">
+       <div className="lg:text-2xl text-xl font-bold text-white">
           News
-        </Link>
-       <img src={logo} className="lg:w-20 w-10  rounded-full" /> 
-       </div>
+        </div>
+       <img src={logo} className="lg:w-12 w-10  rounded-full" /> 
+       </Link>
 
         {/* Desktop Menu */}
         <div className="hidden lg:flex space-x-6">
-          <Link to="/" className="text-gray-700 hover:text-orange-600">
+          <Link to="/" className=" text-white hover:text-green-600">
             <FaHome className="inline mr-1" /> Home
           </Link>
-          <Link to="/add-article" className="text-gray-700 hover:text-orange-600">
+          <Link to="/add-article" className= "text-white hover:text-green-600">
             <FaPlus className="inline mr-1" /> Add Articles
           </Link>
-          <Link to="/public-all-article" className="text-gray-700 hover:text-orange-600">
+          <Link to="/public-all-article" className="text-white hover:text-green-600">
             <FaNewspaper className="inline mr-1" /> All Articles
           </Link>
-          <Link to="/dashboard" className="text-gray-700 hover:text-orange-600">
+          {
+            isAdmin ? <Link to="/dashboard" className="text-white hover:text-green-600">
             <FaTachometerAlt className="inline mr-1" /> Dashboard
-          </Link>
-          <Link to="/my-article" className="text-gray-700 hover:text-orange-600">
+          </Link>: ''
+          }
+          <Link to="/my-article" className="text-white hover:text-green-600">
             <MdPlaylistAddCheckCircle className="inline mr-1" /> My Article
           </Link>
          
-          <Link to="/premium-article" className="text-gray-700 hover:text-orange-600">
+          <Link to="/premium-article" className="text-white hover:text-green-600">
             <GiBoxUnpacking className="inline mr-1" /> Premium Article
           </Link>
         </div>
@@ -55,16 +59,16 @@ const Navbar = () => {
         <div className="hidden lg:flex items-center space-x-4">
           {user ? (
             <>
-              <Link to="/dashboard/profile">
+              <Link to="/profile">
                 <img
                   src={user?.photoURL || "https://via.placeholder.com/40"}
                   alt="User Profile"
-                  className="w-10 h-10 rounded-full border border-orange-600"
+                  className="w-10 h-10 rounded-full border bg-green-600"
                 />
               </Link>
               <button
                 onClick={logOut}
-                className="text-white bg-orange-600 px-4 py-2 rounded hover:bg-orange-500"
+                className="text-white bg-green-600 px-4 py-2 rounded hover:bg-green-600"
               >
                 <FaSignOutAlt className="inline mr-1" /> Logout
               </button>
@@ -73,13 +77,13 @@ const Navbar = () => {
             <>
               <Link
                 to="/login"
-                className="text-orange-600 border border-orange-600 px-4 py-2 rounded hover:bg-orange-600 hover:text-white"
+                className="text-green-600 border border-green-600 px-4 py-2 rounded hover:bg-green-600 hover:text-white"
               >
                 <FaSignInAlt className="inline mr-1" /> Login
               </Link>
               <Link
                 to="/register"
-                className="text-white bg-orange-600 px-4 py-2 rounded hover:bg-orange-500"
+                className="text-white bg-green-600 px-4 py-2 rounded hover:bg-green-600"
               >
                 <FaUserPlus className="inline mr-1" /> Register
               </Link>
@@ -88,7 +92,7 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Menu */}
-        <div className="lg:hidden">
+        <div className="lg:hidden bg-white">
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost">
               <svg
@@ -107,7 +111,7 @@ const Navbar = () => {
             </label>
             <ul
               tabIndex={0}
-              className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-white rounded-box w-52 text-gray-700"
+              className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-green-600 rounded-box w-52 text-white"
             >
               <li>
                 <Link to="/">
@@ -143,7 +147,7 @@ const Navbar = () => {
                 {user ? (
                   <button
                     onClick={logOut}
-                    className="text-orange-600 mt-2 border border-orange-600 px-4 py-2 rounded hover:bg-orange-600 hover:text-white w-full"
+                    className="text-white mt-2 border border-green-600 px-4 py-2 rounded hover:bg-green-600 hover:text-white w-full"
                   >
                     <FaSignOutAlt className="inline mr-1" /> Logout
                   </button>
@@ -151,13 +155,13 @@ const Navbar = () => {
                   <>
                     <Link
                       to="/login"
-                      className="text-orange-600 mt-2 border border-orange-600 px-4 py-2 rounded hover:bg-orange-600 hover:text-white w-full"
+                      className="text-white mt-2 border border-white px-4 py-2 rounded hover:bg-green-600 hover:text-white w-full"
                     >
                       <FaSignInAlt className="inline mr-1" /> Login
                     </Link>
                     <Link
                       to="/register"
-                      className="text-white bg-orange-600 mt-2 px-4 py-2 rounded hover:bg-orange-500 w-full"
+                      className="text-white border-white mt-2 px-4 py-2 rounded hover:bg-green-600 w-full"
                     >
                       <FaUserPlus className="inline mr-1" /> Register
                     </Link>

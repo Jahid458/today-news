@@ -3,8 +3,10 @@ import { NavLink, Outlet } from "react-router-dom";
 import { FaBars, FaUser, FaNewspaper, FaPlus } from "react-icons/fa";
 import Navbar from "../pages/Navbar/Navbar";
 
+
 const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+      
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -18,7 +20,7 @@ const DashboardLayout = () => {
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } lg:translate-x-0 z-50 overflow-y-auto`}
       >
-        <div className="flex items-center justify-between px-6 py-4 bg-blue-500 text-white">
+        <div className="flex items-center justify-between px-6 py-4 bg-green-600 text-white">
           <h2 className="text-xl font-bold">Dashboard</h2>
           <button
             className="lg:hidden text-white"

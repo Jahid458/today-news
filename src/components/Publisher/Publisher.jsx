@@ -20,7 +20,7 @@ const Publisher = () => {
   console.log(publishers);
   return (
     <div className="w-11/12 mx-auto my-20">
-      <h2 className="text-4xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-400 mb-8">
+      <h2 className="text-4xl font-bold text-center   text-green-600 mb-4">
         All publishers
       </h2>
       <Swiper watchSlidesProgress={true} slidesPerView={4} className="mySwiper">
@@ -32,7 +32,7 @@ const Publisher = () => {
                 src={publisher.logo}
                 alt=""
               />
-              <h3 className="lg:text-2xl text-sm md:text-xl font-semibold mt-3 text-orange-600">
+              <h3 className="lg:text-2xl text-sm md:text-xl font-semibold mt-3 text-green-600">
                 {publisher.name}
               </h3>
             </div>

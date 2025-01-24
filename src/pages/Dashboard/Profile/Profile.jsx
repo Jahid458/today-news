@@ -26,7 +26,7 @@ const Profile = () => {
             />
           </a>
 
-          <p className='p-2 px-4 text-xs text-black bg-orange-500 rounded-full'>
+          <p className='p-2 px-4 text-xs text-black bg-green-600 rounded-full'>
            {role}
           </p>
           <p className='mt-2 text-xl font-medium text-gray-800 '>
@@ -46,7 +46,7 @@ const Profile = () => {
               </p>
 
               <div>
-                <button className='bg-orange-500 px-10 py-1 rounded-xl text-black cursor-pointer hover:bg-orange-700 block mb-1'>
+                <button className='bg-green-500 px-10 py-1 rounded-xl text-black cursor-pointer hover:bg-green-600 block mb-1'>
                   Update Profile
                 </button>
             

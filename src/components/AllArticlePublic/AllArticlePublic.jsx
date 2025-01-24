@@ -43,7 +43,7 @@ const AllArticlePublic = () => {
 
   return (
     <div className="p-5">
-      <h2 className="text-2xl font-bold mb-4">All Articles</h2>
+      <h2 className="text-2xl font-bold mb-4 text-center">All Articles</h2>
 
       {/* Search and Filter Section */}
       <div className="mb-6 flex flex-wrap gap-4 items-center">
