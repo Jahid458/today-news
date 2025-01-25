@@ -50,7 +50,7 @@ const Navbar = () => {
             <MdPlaylistAddCheckCircle className="inline mr-1" /> My Article
           </Link>
          
-          <Link to="/premium-article" className="text-white hover:text-green-600">
+          <Link to="/premium" className="text-white hover:text-green-600">
             <GiBoxUnpacking className="inline mr-1" /> Premium Article
           </Link>
         </div>

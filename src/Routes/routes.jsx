@@ -17,6 +17,8 @@ import Profile from "../pages/Dashboard/Profile/Profile";
 import PrivateRoute from './PrivateRoute';
 import Subscription from "../components/Subscription/Subscription";
 import AdminRoute from "./AdminRoute";
+import Dashboard from "../components/Dashboard/Dashboard";
+import PremiumArticles from './../components/PremiumArticles/PremiumArticles';
 
 
 {/* <PrivateRoute></PrivateRoute>  */}
@@ -60,7 +62,12 @@ export const routes = createBrowserRouter([
           {
         path:'profile',
         element: <PrivateRoute><Profile></Profile></PrivateRoute> 
-          }         
+          },
+          {
+            path:'premium',
+            element: <PrivateRoute><PremiumArticles></PremiumArticles></PrivateRoute> 
+          }
+
       ]
     },
     {
@@ -75,6 +82,10 @@ export const routes = createBrowserRouter([
       path: 'dashboard',
       element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
       children:[
+        {
+          path:'/dashboard',
+          element:<Dashboard></Dashboard>
+        },
         {
           path: 'users',
           element: <AdminRoute><AllUser></AllUser></AdminRoute>

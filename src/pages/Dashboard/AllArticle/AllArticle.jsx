@@ -1,12 +1,15 @@
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
 const AllArticles = () => {
   const axiosSecure = useAxiosSecure();
+  const [currentPage, setCurrentPage] = useState(1);
+  const articlesPerPage = 3; // Number of articles per page
 
   // Fetch articles using React Query
-  const { data: articles = [], loading, refetch } = useQuery({
+  const { data: articles = [], isLoading, refetch } = useQuery({
     queryKey: ["articles"],
     queryFn: async () => {
       const res = await axiosSecure.get(`/all-articles`);
@@ -43,15 +46,31 @@ const AllArticles = () => {
     });
   };
 
-  if (loading) {
+  // Pagination logic
+  const totalArticles = articles.length;
+  const totalPages = Math.ceil(totalArticles / articlesPerPage);
+
+  const paginatedArticles = articles.slice(
+    (currentPage - 1) * articlesPerPage,
+    currentPage * articlesPerPage
+  );
+
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+
+  if (isLoading) {
     return <p>Loading articles...</p>;
   }
 
   return (
     <div className="max-w-7xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6 text-center">All Articles</h1>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {articles.map((article) => (
+        {paginatedArticles.map((article) => (
           <div key={article._id} className="card bg-white shadow-md p-4">
             {/* Article Image */}
             <figure className="mb-4">
@@ -95,7 +114,7 @@ const AllArticles = () => {
                   {article.tags.map((tag, index) => (
                     <span
                       key={index}
-                      className="px-2 py-1 text-sm bg-blue-100 text-blue-600 rounded-full"
+                      className="px-2 py-1 text-sm bg-blue-100 text-green-600 rounded-full"
                     >
                       {tag}
                     </span>
@@ -153,6 +172,47 @@ const AllArticles = () => {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Pagination Controls */}
+      <div className="flex justify-center mt-6">
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          className={`px-4 py-2 mx-1 border ${
+            currentPage === 1
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-white text-green-600 border-green-600"
+          } rounded-md`}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index}
+            onClick={() => handlePageChange(index + 1)}
+            className={`px-4 py-2 mx-1 border ${
+              currentPage === index + 1
+                ? "bg-green-600 text-white"
+                : "bg-white text-green-600 border-green-600"
+            } rounded-md`}
+          >
+            {index + 1}
+          </button>
+        ))}
+
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          className={`px-4 py-2 mx-1 border ${
+            currentPage === totalPages
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-white text-green-600 border-green-600"
+          } rounded-md`}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
       </div>
     </div>
   );

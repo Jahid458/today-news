@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Select from "react-select";
 import Swal from "sweetalert2";
-// import useAxiosPublic from "../../hooks/useAxiosPublic";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from './../../hooks/useAxiosSecure';
 
@@ -12,6 +12,7 @@ const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_ke
 
 const AddArticle = () => {
   const {user} = useAuth();
+  const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
   const { register, handleSubmit, reset } = useForm();
   const [tags, setTags] = useState([]);
@@ -43,19 +44,31 @@ const AddArticle = () => {
     { value: "Politics", label: "Politics" },
   ];
 
+
+
   const onSubmit = async (data) => {
     console.log("Form Data:", data);
 
+
+
     // Upload image and get URL
     const imageFile = { image: data.image[0] };
-    const res = await axiosSecure.post(image_hosting_api, imageFile, {
+    const res = await axiosPublic.post(image_hosting_api, imageFile, {
       headers: { "Content-Type": "multipart/form-data" },
     });
+
+    const selectedPublisher = publishers.find(
+      (publisher) => publisher.name === data.publisher
+    );
+    
+    console.log(selectedPublisher?._id);
+
 
     if (res.data.success) {
       const articleData = {
         title: data.title,
         publisher: data.publisher,
+        publisherId: selectedPublisher?._id,
         tags: tags.map((tag) => tag.value),
         description: data.description,
         image: res.data.data.display_url,
@@ -86,7 +99,7 @@ const AddArticle = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg mt-16 mb-8">
-      <h2 className="text-2xl font-bold mb-4">Add New Article</h2>
+      <h2 className="text-2xl font-bold mb-4 text-center text-green-600">Add New Article</h2>
       
       <form onSubmit={handleSubmit(onSubmit)}  className="space-y-4">
         {/* Title */}
@@ -144,12 +157,12 @@ const AddArticle = () => {
         {/* Image Upload */}
         <div className="form-control w-full">
           <label className="label">
-            <span className="label-text">Image*</span>
+            <span className="label-text ">Image*</span>
           </label>
           <input
             {...register("image", { required: true })}
             type="file"
-            className="file-input w-full"
+            className="file-input w-full border border-green-600"
             accept="image/*"
           />
         </div>
@@ -167,7 +180,7 @@ const AddArticle = () => {
         </div>
 
         {/* Submit Button */}
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn bg-green-600 text-white">
           Submit Article
         </button>
       </form>

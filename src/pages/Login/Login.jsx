@@ -1,142 +1,116 @@
-
-import { FcGoogle } from 'react-icons/fc';
-// import { TbFidgetSpinner } from 'react-icons/tb';
-import { Link, useLocation, useNavigate} from 'react-router-dom';
-import toast from 'react-hot-toast';
-import useAuth from '../../hooks/useAuth';
-import { saveUser } from '../../api/utils';
-
-
+import { FcGoogle } from "react-icons/fc";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import useAuth from "../../hooks/useAuth";
+import { saveUser } from "../../api/utils";
+import { useState } from "react";
 
 const Login = () => {
+  const { signInWithGoogle, signIn } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [authError, setAuthError] = useState("");
 
-    const {signInWithGoogle,signIn} = useAuth();
-    const navigate = useNavigate();
-      const location = useLocation();
-      console.log(location.state);
-    const handleSubmit = async event => {
-        event.preventDefault()
-        const form = event.target
-        const email = form.email.value
-        const password = form.password.value
-    
-        try {
-          //User Login
-          await signIn(email, password)
-          navigate(`${location?.state?.from ? location?.state?.from : '/'}`)
-          toast.success('Login Successful')
-        } catch (err) {
-          console.log(err)
-          toast.error(err?.message)
-        }
-      }
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const email = form.email.value;
+    const password = form.password.value;
 
-    const handleGoogleSignIn = async () => {
-        try {
-          //User Registration using google
-          const data =  await signInWithGoogle()
-        //save userInfo in db if the user is new 
-         await saveUser(data?.user)
-            console.log(data.user);
-          navigate(`${location?.state?.from ? location?.state?.from : '/'}`)
-          toast.success('Signup Successful')
-        } catch (err) {
-          console.log(err)
-          toast.error(err?.message)
-        }
-      }
-      
-    return (
-        <div className='flex justify-center items-center min-h-screen bg-white'>
-        <div className='flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900'>
-          <div className='mb-8 text-center'>
-            <h1 className='my-3 text-4xl font-bold'>Log In</h1>
-            <p className='text-sm text-gray-400'>
-              Sign in to access your account
-            </p>
-          </div>
-          <form
-            onSubmit={handleSubmit}
-            noValidate=''
-            action=''
-            className='space-y-6 ng-untouched ng-pristine ng-valid'
-          >
-            <div className='space-y-4'>
-              <div>
-                <label htmlFor='email' className='block mb-2 text-sm'>
-                  Email address
-                </label>
-                <input
-                  type='email'
-                  name='email'
-                  id='email'
-                  required
-                  placeholder='Enter Your Email Here'
-                  className='w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-lime-500 bg-gray-200 text-gray-900'
-                  data-temp-mail-org='0'
-                />
-              </div>
-              <div>
-                <div className='flex justify-between'>
-                  <label htmlFor='password' className='text-sm mb-2'>
-                    Password
-                  </label>
-                </div>
-                <input
-                  type='password'
-                  name='password'
-                  autoComplete='current-password'
-                  id='password'
-                  required
-                  placeholder='*******'
-                  className='w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-lime-500 bg-gray-200 text-gray-900'
-                />
-              </div>
-            </div>
-  
-            <div>
-              <button
-                type='submit'
-                className='bg-green-500 w-full rounded-md py-3 text-white'
-              >
-                Login
-            
-              </button>
-            </div>
-          </form>
-          <div className='space-y-1'>
-            <button className='text-xs hover:underline hover:text-lime-500 text-gray-400'>
-              Forgot password?
-            </button>
-          </div>
-          <div className='flex items-center pt-4 space-x-1'>
-            <div className='flex-1 h-px sm:w-16 dark:bg-gray-700'></div>
-            <p className='px-3 text-sm dark:text-gray-400'>
-              Login with social accounts
-            </p>
-            <div className='flex-1 h-px sm:w-16 dark:bg-gray-700'></div>
-          </div>
-          <div 
-            onClick={handleGoogleSignIn}
-            className='flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded cursor-pointer'
-          >
-            <FcGoogle size={32} />
-  
-            <p>Continue with Google</p>
-          </div>
-          <p className='px-6 text-sm text-center text-gray-400'>
-            Don&apos;t have an account yet?{' '}
-            <Link
-              to='/register'
-              className='hover:underline hover:text-lime-500 text-gray-600'
-            >
-              Sign up
-            </Link>
-            .
-          </p>
+    try {
+      // User Login
+      await signIn(email, password);
+      navigate(`${location?.state?.from ? location?.state?.from : "/"}`);
+      toast.success("Login Successful");
+      setAuthError(""); // Clear any previous errors
+    } catch (err) {
+      console.error(err);
+      setAuthError("Invalid email or password. Please try again.");
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      const data = await signInWithGoogle();
+      await saveUser(data?.user);
+      navigate(`${location?.state?.from ? location?.state?.from : "/"}`);
+      toast.success("Login Successful");
+    } catch (err) {
+      console.error(err);
+      toast.error(err?.message);
+    }
+  };
+
+  return (
+    <div className="flex justify-center items-center min-h-screen">
+      <div className="flex flex-col w-full max-w-lg p-6 border border-gray-300 rounded-lg shadow-lg">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-green-600">Log In</h1>
+          <p className="text-sm text-gray-600">Sign in to access your account</p>
         </div>
+        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-600">
+              Email Address
+            </label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              required
+              placeholder="Enter Your Email"
+              className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-600"
+            />
+          </div>
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-600">
+              Password
+            </label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              required
+              placeholder="Enter Your Password"
+              className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-600"
+            />
+          </div>
+          {authError && (
+            <p className="text-sm text-red-500 mt-1">{authError}</p>
+          )}
+          <button
+            type="submit"
+            className="w-full py-2 text-white bg-green-600 rounded-md hover:bg-green-700"
+          >
+            Login
+          </button>
+        </form>
+        <div className="mt-4 text-right">
+          <button className="text-sm text-gray-600 hover:text-green-600 hover:underline">
+            Forgot password?
+          </button>
+        </div>
+        <div className="flex items-center my-4">
+          <div className="flex-grow border-t border-gray-300"></div>
+          <span className="px-2 text-sm text-gray-600">Or</span>
+          <div className="flex-grow border-t border-gray-300"></div>
+        </div>
+        <div
+          onClick={handleGoogleSignIn}
+          className="flex items-center justify-center w-full py-2 border rounded-md cursor-pointer hover:bg-gray-100"
+        >
+          <FcGoogle size={24} />
+          <span className="ml-2 text-sm text-gray-600">Continue with Google</span>
+        </div>
+        <p className="mt-4 text-sm text-center text-gray-600">
+          Don’t have an account yet?{" "}
+          <Link to="/register" className="text-green-600 hover:underline">
+            Sign up
+          </Link>
+        </p>
       </div>
-    );
+    </div>
+  );
 };
 
 export default Login;

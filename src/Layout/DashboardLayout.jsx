@@ -2,6 +2,7 @@ import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { FaBars, FaUser, FaNewspaper, FaPlus } from "react-icons/fa";
 import Navbar from "../pages/Navbar/Navbar";
+import { MdDashboard } from "react-icons/md";
 
 
 const DashboardLayout = () => {
@@ -32,6 +33,19 @@ const DashboardLayout = () => {
         </div>
         <nav className="mt-6">
           <ul className="space-y-2">
+          <li>
+              <NavLink
+                to="/dashboard"
+                className={({ isActive }) =>
+                  `flex items-center px-6 py-3 text-gray-700 hover:bg-gray-200 ${
+                    isActive ? "bg-gray-200 font-bold" : ""
+                  }`
+                }
+              >
+                <MdDashboard className="mr-3" />
+                Dashboard
+              </NavLink>
+            </li>
             <li>
               <NavLink
                 to="/dashboard/users"
