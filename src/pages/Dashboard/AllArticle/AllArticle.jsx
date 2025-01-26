@@ -2,13 +2,37 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 const AllArticles = () => {
   const axiosSecure = useAxiosSecure();
   const [currentPage, setCurrentPage] = useState(1);
-  const articlesPerPage = 3; // Number of articles per page
+  const [declineid, setDeclineId] = useState('');
+  
+  const articlesPerPage = 3;
+  const {
+    register,
+    handleSubmit,
+    // eslint-disable-next-line no-unused-vars
+    formState: { errors },
+  } = useForm();
 
-  // Fetch articles using React Query
+  const handleMakeDecline = (declined,id) =>{
+    setDeclineId(id)
+    axiosSecure.patch(`/article-status/${id}`,{
+      status: declined
+    })
+  }
+  console.log(declineid);
+
+  // eslint-disable-next-line no-unused-vars
+  const onSubmit = (data) => {
+      axiosSecure.patch(`/declineReasons/${declineid}`,{
+        declineReason: data.declineReason
+      })
+      console.log(data);
+  }
+
   const { data: articles = [], isLoading, refetch } = useQuery({
     queryKey: ["articles"],
     queryFn: async () => {
@@ -46,7 +70,6 @@ const AllArticles = () => {
     });
   };
 
-  // Pagination logic
   const totalArticles = articles.length;
   const totalPages = Math.ceil(totalArticles / articlesPerPage);
 
@@ -69,112 +92,109 @@ const AllArticles = () => {
     <div className="max-w-7xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6 text-center">All Articles</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {paginatedArticles.map((article) => (
-          <div key={article._id} className="card bg-white shadow-md p-4">
-            {/* Article Image */}
-            <figure className="mb-4">
-              <img
-                src={article.image}
-                alt={article.title}
-                className="h-48 w-full object-cover rounded"
-              />
-            </figure>
+      <div className="overflow-x-auto">
+        <table className="table-auto w-full border-collapse border border-gray-300">
+        <thead>
+  <tr className="bg-gray-100">
+    <th className="border border-gray-300 px-4 py-2">Image</th>
+    <th className="border border-gray-300 px-4 py-2">Author</th>
+    <th className="border border-gray-300 px-4 py-2">Publisher & Title</th>
+    <th className="border border-gray-300 px-4 py-2">Posted & Status</th>
+    <th className="border border-gray-300 px-4 py-2">Actions</th>
+  </tr>
+</thead>
+<tbody>
+  {paginatedArticles.map((article) => (
+    <tr key={article._id} className="hover:bg-gray-50">
+      <td className="border border-gray-300 px-4 py-2">
+        <img
+          src={article.image}
+          alt={article.title}
+          className="h-16 w-16 object-cover rounded"
+        />
+      </td>
 
-            {/* Card Content */}
-            <div className="card-body flex flex-col justify-between">
-              <h2 className="card-title mb-2">{article.title}</h2>
-
-              {/* Author Section */}
-              <div className="flex items-center space-x-4 mb-2">
-                <img
-                  src={article.authorPhoto}
-                  alt={article.authorName}
-                  className="w-10 h-10 rounded-full"
-                />
-                <div>
-                  <p className="font-semibold">{article.authorName}</p>
-                  <p className="text-sm text-gray-500">{article.email}</p>
-                </div>
-              </div>
-
-              {/* Publisher and Date */}
-              <p className="text-sm text-gray-500">
-                <strong>Publisher:</strong> {article.publisher}
-              </p>
-              <p className="text-sm text-gray-500 mb-2">
-                <strong>Posted:</strong>{" "}
-                {new Date(article.publisherDate).toLocaleDateString()}
-              </p>
-
-              {/* Tags */}
-              <div className="text-sm text-gray-500 mb-4">
-                <strong>Tags:</strong>
-                <div className="flex flex-wrap gap-2 mt-1">
-                  {article.tags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className="px-2 py-1 text-sm bg-blue-100 text-green-600 rounded-full"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Status */}
-              <p className="text-sm text-gray-500 mb-4">
-                <strong>Status:</strong>{" "}
-                <span
-                  className={`badge ${
-                    article.status === "Approved"
-                      ? "badge-success"
-                      : article.status === "Declined"
-                      ? "badge-error"
-                      : "badge-warning"
-                  }`}
-                >
-                  {article.status}
-                </span>
-              </p>
-
-              {/* Action Buttons */}
-              <div className="card-actions flex flex-wrap gap-2">
-                <button
-                  onClick={() => handleApprove("approved", article._id)}
-                  className="btn btn-sm btn-success"
-                >
-                  Approve
-                </button>
-                <button
-                  className="btn btn-sm btn-error"
-                  disabled={article.status === "Declined"}
-                >
-                  Decline
-                </button>
-                <button
-                  onClick={() => handleDelete(article._id)}
-                  className="btn btn-sm btn-warning"
-                >
-                  Delete
-                </button>
-                {article.isPremium === "No" ? (
-                  <button
-                    onClick={() => handleMakePremium("yes", article._id)}
-                    className="btn btn-sm btn-info"
-                  >
-                    Make Premium
-                  </button>
-                ) : (
-                  <p className="badge badge-accent badge-outline py-3">Premium</p>
-                )}
-              </div>
-            </div>
+      <td className="border border-gray-300 px-4 py-2">
+        <div className="flex items-center space-x-2">
+          <img
+            src={article.authorPhoto}
+            alt={article.authorName}
+            className="w-8 h-8 rounded-full"
+          />
+          <div>
+            <p>{article.authorName}</p>
+            <p className="text-sm text-gray-500">{article.email}</p>
           </div>
-        ))}
+        </div>
+      </td>
+
+      {/* Publisher and Title */}
+      <td className="border border-gray-300 px-4 py-2">
+        <p className="text-sm text-gray-500 mt-1">{article.title}</p>
+        <p>{article.publisher}</p>
+      </td>
+
+      {/* Posted & Status */}
+      <td className="border border-gray-300 px-4 py-2">
+        <p>{new Date(article.publisherDate).toLocaleDateString()}</p>
+        <span
+          className={`px-2 py-1 mt-1 rounded-full text-sm block ${
+            article.status === "Approved"
+              ? "bg-green-100 text-green-600"
+              : article.status === "Declined"
+              ? "bg-red-100 text-red-600"
+              : "bg-yellow-100 text-yellow-600"
+          }`}
+        >
+          {article.status}
+        </span>
+      </td>
+
+      <td className="border border-gray-300 px-4 py-2">
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            onClick={() => handleApprove("approved", article._id)}
+            className="p-2 bg-green-500 text-white text-sm rounded"
+          >
+            Approve
+          </button>
+          <button
+            onClick={()=>{
+               handleMakeDecline("declined",article._id)
+              document.getElementById('my_modal_3').showModal()}
+            }
+            className="p-2 bg-red-500 text-white text-sm rounded"
+            disabled={article.status === "Declined"}
+          >
+            Decline
+          </button>
+          <button
+            onClick={() => handleDelete(article._id)}
+            className="p-2 bg-yellow-500 text-white text-sm rounded"
+          >
+            Delete
+          </button>
+          {article.isPremium === "No" ? (
+            <button
+              onClick={() => handleMakePremium("yes", article._id)}
+              className="p-2 bg-blue-500 text-white text-sm rounded"
+            >
+              Make Premium
+            </button>
+          ) : (
+            <span className="p-2 bg-purple-100 text-purple-600 text-sm rounded">
+              Premium
+            </span>
+          )}
+        </div>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
+        </table>
       </div>
 
-      {/* Pagination Controls */}
       <div className="flex justify-center mt-6">
         <button
           onClick={() => handlePageChange(currentPage - 1)}
@@ -214,6 +234,45 @@ const AllArticles = () => {
           Next
         </button>
       </div>
+
+      {/* You can open the modal using document.getElementById('ID').showModal() method */}
+<button className="btn" onClick={()=>document.getElementById('my_modal_3').showModal()}>open modal</button>
+<dialog id="my_modal_3" className="modal">
+  <div className="modal-box">
+  <form onSubmit={handleSubmit(onSubmit)}>
+            <textarea
+              id="decline-reason"
+              rows="4"
+              {...register("declineReason", { required: true })}
+              className="w-full p-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 text-gray-800"
+              placeholder="Write your reason here..."
+            ></textarea>
+
+            {/* Modal Footer */}
+            <div className="mt-6 flex justify-end gap-4">
+              {/* Cancel Button */}
+              <button
+                type="button"
+                className="btn btn-outline rounded-lg px-4 py-2 text-gray-700 border-gray-300"
+                onClick={() => document.getElementById("my_modal_3").close()}
+              >
+                Cancel
+              </button>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                className="btn bg-green-600 text-white rounded-lg px-6 py-2 hover:bg-green-700"
+              >
+                Post
+              </button>
+            </div>
+          </form>
+
+    <textarea></textarea>
+
+  </div>
+</dialog>
     </div>
   );
 };

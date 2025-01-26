@@ -6,12 +6,15 @@ import { app } from './../firebase/firebase.config';
 import useAxiosPublic from "../hooks/useAxiosPublic";
 
 
+
 export const AuthContext = createContext(null);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
+
 // eslint-disable-next-line react/prop-types
 const AuthProvider = ({children}) => {
+
     const [user,setUser] = useState(null);
     const [loading,setLoading] = useState(true);
     const axiosPublic = useAxiosPublic();
@@ -43,6 +46,7 @@ const AuthProvider = ({children}) => {
       const logOut = async () => {
         setLoading(true);
         return signOut(auth);
+
       };
     
 
@@ -50,12 +54,13 @@ const AuthProvider = ({children}) => {
 
  
 
-    useEffect(()=>{
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) =>{
+    useEffect( ()=>{
+        const unsubscribe = onAuthStateChanged(auth, async(currentUser) =>{
             setUser(currentUser);
             console.log("Current user is ===> ", user);
            
             if(currentUser){
+
                 //get token storage
                 const userInfo = {email: currentUser.email}
                 axiosPublic.post('/jwt', userInfo)
@@ -64,6 +69,33 @@ const AuthProvider = ({children}) => {
                         localStorage.setItem('access-token', res.data.token)
                     }
                 })
+                
+                // new -----------------------------------------------
+
+
+                 // Check premiumTaken status
+        const userResponse = await axiosPublic.get(`/user/${currentUser.email}`);
+        const userData = userResponse.data;
+        if (userData.premiumEnds) {
+          const premiumEndTime = new Date(userData.premiumEnds);
+          const currentTime = new Date();
+
+          if (currentTime > premiumEndTime) {
+            await axiosPublic.patch(`/resetPremium/${currentUser.email}`, {
+              premiumTaken: null,
+              premiumEnds: null,
+            });
+            console.log("Subscription expired. Resetting premium status.");
+            setUser((prevUser) => ({
+              ...prevUser,
+              premiumTaken: null,
+              premiumEnds: null,
+            }));
+          } else {
+            console.log("User is still a premium user.");
+          }
+        }
+
             }else{
                 //remove token
                 localStorage.removeItem('access-token') 

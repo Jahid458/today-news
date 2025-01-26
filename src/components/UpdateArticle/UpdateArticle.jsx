@@ -170,7 +170,7 @@ const UpdateArticle = () => {
             {...register("image")}
             type="file"
             className="file-input w-full"
-            accept="image/*"
+            accept="image/*" 
           />
           {defaultArticledata.image && (
             <img

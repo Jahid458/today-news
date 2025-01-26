@@ -19,6 +19,7 @@ import Subscription from "../components/Subscription/Subscription";
 import AdminRoute from "./AdminRoute";
 import Dashboard from "../components/Dashboard/Dashboard";
 import PremiumArticles from './../components/PremiumArticles/PremiumArticles';
+import Payment from "../pages/Payment/Payment";
 
 
 {/* <PrivateRoute></PrivateRoute>  */}
@@ -26,49 +27,58 @@ export const routes = createBrowserRouter([
     {
       path: "/",
       element: <MainLayout></MainLayout>,
-      children: [
+      _children: [
         {
-          path:'/',
-          element:<Home/>
-         },
-         {
-          path:'add-article',
-          element: <PrivateRoute><AddArticle></AddArticle></PrivateRoute> 
-         },
-         {
-            path:'public-all-article',
-            element:<AllArticlePublic></AllArticlePublic>
-         },
+          path: '/',
+          element: <Home />
+        },
+        {
+          path: 'add-article',
+          element: <PrivateRoute><AddArticle></AddArticle></PrivateRoute>
+        },
+        {
+          path: 'public-all-article',
+          element: <AllArticlePublic></AllArticlePublic>
+        },
 
-         {
-          path:'my-article',
-          element: <PrivateRoute><MyArticles></MyArticles></PrivateRoute>  
-         },
-         {
-            path:'article-details/:id',
-            element:  <PrivateRoute><ArticleDetails></ArticleDetails></PrivateRoute>,
-            loader: ({ params }) => fetch(`http://localhost:5000/article/${params.id}`),
-         },
-         {
-          path:'update-article/:id',
+        {
+          path: 'my-article',
+          element: <PrivateRoute><MyArticles></MyArticles></PrivateRoute>
+        },
+        {
+          path: 'article-details/:id',
+          element: <PrivateRoute><ArticleDetails></ArticleDetails></PrivateRoute>,
+          loader: ({ params }) => fetch(`http://localhost:5000/article/${params.id}`),
+        },
+        {
+          path: 'update-article/:id',
           element: <UpdateArticle></UpdateArticle>,
           loader: ({ params }) => fetch(`http://localhost:5000/article/${params.id}`),
-          },
-          {
-            path:'subscription',
-            element:<PrivateRoute><Subscription></Subscription></PrivateRoute>
-          },
-           
-          {
-        path:'profile',
-        element: <PrivateRoute><Profile></Profile></PrivateRoute> 
-          },
-          {
-            path:'premium',
-            element: <PrivateRoute><PremiumArticles></PremiumArticles></PrivateRoute> 
-          }
+        },
+        {
+          path: 'subscription',
+          element: <PrivateRoute><Subscription></Subscription></PrivateRoute>
+        },
 
-      ]
+        {
+          path: 'profile',
+          element: <PrivateRoute><Profile></Profile></PrivateRoute>
+        },
+        {
+          path: 'premium',
+          element: <PrivateRoute><PremiumArticles></PremiumArticles></PrivateRoute>
+        },
+        {
+          path: 'payment',
+          element: <Payment />
+        }
+      ],
+      get children() {
+        return this._children;
+      },
+      set children(value) {
+        this._children = value;
+      },
     },
     {
       path:'login',

@@ -25,6 +25,15 @@ const AllArticlePublic = () => {
     },
   });
 
+  // eslint-disable-next-line no-unused-vars
+  const { data: publishers = [], isLoading, error } = useQuery({
+    queryKey: ["publishers"],
+    queryFn: async () => {
+      const res = await axiosPublic.get("/publishers");
+      return res.data;
+    },
+  });
+
   const handleSearch = (e) => {
     e.preventDefault();
     refetch();
@@ -60,8 +69,11 @@ const AllArticlePublic = () => {
           onChange={(e) => setSelectedPublisher(e.target.value)}
         >
           <option value="">All Publishers</option>
-          <option value="BBC">BBC</option>
-          <option value="Al Jazeera">Al Jazeera</option>
+          {publishers.map((publisher) => (
+            <option key={publisher._id} value={publisher.name}>
+              {publisher.name}
+            </option>
+          ))}
         </select>
         <select
           className="select select-bordered w-full md:w-1/4"
@@ -90,7 +102,7 @@ const AllArticlePublic = () => {
           <div
             key={article._id}
             className={`card border p-4 rounded-lg ${
-              article.isPremium === null ? "bg-yellow-100 border-yellow-400" : "bg-white border-gray-300"
+              article.isPremium === 'Yes' ? "bg-yellow-100 border-yellow-400" : "bg-white border-gray-300"
             }`}
           >
             <img

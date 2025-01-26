@@ -46,7 +46,9 @@ const TrendingArticles = () => {
 
   return (
     <div className="w-11/12 mx-auto my-9">
-      <h2 className="text-3xl font-bold mb-6 text-center text-green-600">Trending Articles</h2>
+      <h2 className="text-3xl font-bold mb-6 text-center text-green-600">
+        Trending Articles
+      </h2>
       <Swiper
         spaceBetween={20}
         pagination={{

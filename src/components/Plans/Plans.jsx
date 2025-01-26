@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Plans = () => {
   return (
-    <div className="min-h-screen  text-center p-8">
+    <div className=" text-center p-5">
       <h1 className="text-4xl font-bold text-green-600 mb-8">Our Plans</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Premium */}

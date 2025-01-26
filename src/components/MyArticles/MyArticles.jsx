@@ -3,10 +3,13 @@ import useAuth from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { useState } from "react";
 
 const MyArticles = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
+
+  const [declineText,setDeclineTest]= useState('');
 
 
 
@@ -40,7 +43,7 @@ const MyArticles = () => {
         }
       });
     };
-
+    console.log(articles);
   return (
     <div className="p-5">
       <h2 className="text-2xl font-bold mb-4 text-center">My Articles</h2>
@@ -52,6 +55,7 @@ const MyArticles = () => {
               <th className="border border-gray-300 px-4 py-2">Title</th>
              <th className="border border-gray-300 px-4 py-2">Details</th>
               <th className="border border-gray-300 px-4 py-2">Status</th>
+              <th className="border border-gray-300 px-4 py-2">Decline Reason</th>
               <th className="border border-gray-300 px-4 py-2">Is Premium</th>
               <th className="border border-gray-300 px-4 py-2">Update</th>
               <th className="border border-gray-300 px-4 py-2">Delete</th>
@@ -72,6 +76,15 @@ const MyArticles = () => {
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
                   {article.status}
+                </td>
+                <td className="border border-gray-300 px-4 py-2">
+                  <button 
+                      disabled = {!article.declineReason}
+                    onClick={() => {
+                    
+                      setDeclineTest(article.declineReason)
+                      document.getElementById('my_modal_3').showModal()}}
+                  className="bg-green-200 p-1 rounded-lg disabled:cursor-not-allowed">Decline Reason</button>
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
                   {article.isPremium ? "Yes" : "No"}
@@ -98,7 +111,23 @@ const MyArticles = () => {
           </tbody>
         </table>
       </div>
+
+
+      <dialog id="my_modal_3" className="modal">
+        <div className="modal-box rounded-none bg-rose-500 text-white">
+          <form method="dialog">
+            {/* if there is a button in form, it will close the modal */}
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+              ✕
+            </button>
+          </form>
+          {/* <h3 className="font-bold text-lg">{declineText}</h3> */}
+          <p className="py-4">{declineText}</p>
+        </div>
+       </dialog>
     </div>
+
+
   );
 };
 
