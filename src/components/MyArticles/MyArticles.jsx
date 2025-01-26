@@ -99,7 +99,7 @@ const MyArticles = () => {
               
                   <button
                    onClick={() => handleDelete(article._id)}
-                  className="px-3 py-1 bg-red-500 text-white rounded">
+                     className="px-3 py-1 bg-red-500 text-white rounded">
                     
                     Delete
                   </button>

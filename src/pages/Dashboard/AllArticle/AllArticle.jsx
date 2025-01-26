@@ -154,7 +154,7 @@ const AllArticles = () => {
         <div className="grid grid-cols-2 gap-2">
           <button
             onClick={() => handleApprove("approved", article._id)}
-            className="p-2 bg-green-500 text-white text-sm rounded"
+            className="p-2 btn btn-success text-white text-sm rounded"
           >
             Approve
           </button>
@@ -163,26 +163,26 @@ const AllArticles = () => {
                handleMakeDecline("declined",article._id)
               document.getElementById('my_modal_3').showModal()}
             }
-            className="p-2 bg-red-500 text-white text-sm rounded"
+            className="p-2 btn btn-success text-white text-sm rounded"
             disabled={article.status === "Declined"}
           >
             Decline
           </button>
           <button
             onClick={() => handleDelete(article._id)}
-            className="p-2 bg-yellow-500 text-white text-sm rounded"
+            className="p-2 btn btn-error text-white text-sm rounded"
           >
             Delete
           </button>
           {article.isPremium === "No" ? (
             <button
               onClick={() => handleMakePremium("yes", article._id)}
-              className="p-2 bg-blue-500 text-white text-sm rounded"
+              className="p-2 btn btn-success text-white text-sm rounded"
             >
               Make Premium
             </button>
           ) : (
-            <span className="p-2 bg-purple-100 text-purple-600 text-sm rounded">
+            <span className="p-3 font-bold bg-purple-100 text-purple-600 text-sm rounded">
               Premium
             </span>
           )}
