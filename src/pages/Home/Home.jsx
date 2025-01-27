@@ -6,6 +6,7 @@ import Publisher from "../../components/Publisher/Publisher";
 import TrendingArticles from "../../components/TrendingArticles/TrendingArticles";
 import UserStats from "../../components/UserStats/UserStats";
 import NewspaperAccordion from "../../components/AccordionItem/NewspaperAccordion";
+import Reviews from "../../components/Reviews/Reviews";
 
 
 const Home = () => {
@@ -34,6 +35,7 @@ const Home = () => {
       <Plans />
       <UserStats/>
       <NewspaperAccordion />
+      <Reviews/>
       
 
       {/* Modal for Subscription */}
