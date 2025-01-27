@@ -47,12 +47,19 @@ const Navbar = () => {
           <Link to="/" className=" text-white hover:text-green-600">
             <FaHome className="inline mr-1" /> Home
           </Link>
-          <Link to="/add-article" className= "text-white hover:text-green-600">
-            <FaPlus className="inline mr-1" /> Add Articles
-          </Link>
           <Link to="/public-all-article" className="text-white hover:text-green-600">
             <FaNewspaper className="inline mr-1" /> All Articles
           </Link>
+
+
+          {
+         
+            user && 
+         <> 
+          <Link to="/add-article" className= "text-white hover:text-green-600">
+            <FaPlus className="inline mr-1" /> Add Articles
+          </Link>
+
           {
             isAdmin ? <Link to="/dashboard" className="text-white hover:text-green-600">
             <FaTachometerAlt className="inline mr-1" /> Dashboard
@@ -69,8 +76,9 @@ const Navbar = () => {
           </Link>
                   </li>
                 )}
-         
-         
+            </>  
+            
+            }
         </div>
 
         {/* User Section */}
@@ -131,36 +139,60 @@ const Navbar = () => {
               tabIndex={0}
               className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-green-600 rounded-box w-52 text-white"
             >
+
+
+         
+            
+              
+           
+              
               <li>
                 <Link to="/">
                   <FaHome className="mr-2" /> Home
                 </Link>
               </li>
+
+              <li>
+              <Link to="/all-articles">
+                <FaNewspaper className="mr-2" /> All Articles
+              </Link>
+              </li>
+
+              {   user && 
+
+              <>
+
               <li>
                 <Link to="/add-articles">
                   <FaPlus className="mr-2" /> Add Articles
                 </Link>
               </li>
-              <li>
-                <Link to="/all-articles">
-                  <FaNewspaper className="mr-2" /> All Articles
-                </Link>
-              </li>
+             
+              {  isAdmin &&
               <li>
                 <Link to="/dashboard">
                   <FaTachometerAlt className="mr-2" /> Dashboard
                 </Link>
               </li>
+              }
               <li>
                 <Link to="/my-article">
                   <MdPlaylistAddCheckCircle className="mr-2" /> My Article
                 </Link>
               </li>
+
+                { userType.premiumTaken !== null && ( 
               <li>
                 <Link to="/premium-article">
                   <GiBoxUnpacking className="mr-2" /> Premium Article
                 </Link>
+                
               </li>
+              )
+              }
+                 </>
+            }
+              
               <li>
                 {user ? (
                   <button
