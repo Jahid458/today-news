@@ -5,6 +5,8 @@ import Plans from "../../components/Plans/Plans";
 import Publisher from "../../components/Publisher/Publisher";
 import TrendingArticles from "../../components/TrendingArticles/TrendingArticles";
 import UserStats from "../../components/UserStats/UserStats";
+import NewspaperAccordion from "../../components/AccordionItem/NewspaperAccordion";
+
 
 const Home = () => {
   const [showModal, setShowModal] = useState(false); // Modal visibility state
@@ -31,6 +33,8 @@ const Home = () => {
       <Publisher />
       <Plans />
       <UserStats/>
+      <NewspaperAccordion />
+      
 
       {/* Modal for Subscription */}
       {showModal && (

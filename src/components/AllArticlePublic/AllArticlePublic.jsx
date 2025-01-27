@@ -38,8 +38,6 @@ const AllArticlePublic = () => {
   // eslint-disable-next-line no-unused-vars
   const {
     data: publishers = [],
-    isLoading,
-    error,
   } = useQuery({
     queryKey: ["publishers"],
     queryFn: async () => {
