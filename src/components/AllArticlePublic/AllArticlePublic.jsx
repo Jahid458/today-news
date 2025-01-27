@@ -11,6 +11,16 @@ const AllArticlePublic = () => {
   const [selectedPublisher, setSelectedPublisher] = useState("");
   const [selectedTag, setSelectedTag] = useState("");
 
+  //prmium taken
+  const { data: usertype = [] } = useQuery({
+    queryKey: ["usertype", user?.email],
+    queryFn: async () => {
+      const res = await axiosPublic.get(`/userType/${user?.email}`);
+      return res.data;
+    },
+  });
+  console.log(usertype);
+
   // Fetch articles using React Query
   const { data: articles = [], refetch } = useQuery({
     queryKey: ["allArticles", searchTerm, selectedPublisher, selectedTag],
@@ -26,7 +36,11 @@ const AllArticlePublic = () => {
   });
 
   // eslint-disable-next-line no-unused-vars
-  const { data: publishers = [], isLoading, error } = useQuery({
+  const {
+    data: publishers = [],
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["publishers"],
     queryFn: async () => {
       const res = await axiosPublic.get("/publishers");
@@ -39,16 +53,13 @@ const AllArticlePublic = () => {
     refetch();
   };
 
-  const handleViewCount = (id) =>{
-    
+  const handleViewCount = (id) => {
     console.log(id);
-    axiosPublic.patch(`/viewCount/${id}`)
-    .then(res => {
-        refetch()
-        console.log(res)
-    })
-
-  }
+    axiosPublic.patch(`/viewCount/${id}`).then((res) => {
+      refetch();
+      console.log(res);
+    });
+  };
 
   return (
     <div className="p-5">
@@ -102,7 +113,9 @@ const AllArticlePublic = () => {
           <div
             key={article._id}
             className={`card border p-4 rounded-lg ${
-              article.isPremium === 'Yes' ? "bg-yellow-100 border-yellow-400" : "bg-white border-gray-300"
+              article.isPremium === "Yes"
+                ? "bg-yellow-100 border-yellow-400"
+                : "bg-white border-gray-300"
             }`}
           >
             <img
@@ -111,23 +124,32 @@ const AllArticlePublic = () => {
               className="w-full h-48 object-cover rounded-md mb-4"
             />
             <h3 className="text-xl font-bold">{article.title}</h3>
-            <p className="text-gray-600 badge  badge-outline mt-2">{article.publisher}</p>
-            <p className="text-gray-700 mb-4 mt-1">{article.description}</p>
-            <Link to={`/article-details/${article._id}`}>
+            <p className="text-gray-600 badge  badge-outline mt-2">
+              {article.publisher}
+            </p>
+            <p className="text-gray-700 mb-4 mt-1">{article.description?.slice(0,90)}</p>
+            {article.isPremium === "Yes" && usertype?.premiumTaken === null ? (
               <button
-                onClick={() => handleViewCount(article._id) }
-                className={`btn btn-primary text-white px-4 py-2 ${
-                  article.isPremium === "Yes" && !user?.subscription
-                    ? "btn-disabled opacity-50"
-                    : ""
-                }`}
-                
+                disabled
+                onClick={() => handleViewCount(article._id)}
+                className={`btn btn-primary text-white px-4 py-2}`}
+
                 //&& !user?.subscription
-                disabled={article.isPremium === "Yes" }
               >
                 Details
               </button>
-            </Link>
+            ) : (
+              <Link to={`/article-details/${article._id}`}>
+              <button
+                onClick={() => handleViewCount(article._id)}
+                className={`btn btn-primary text-white px-4 py-2}`}
+
+                //&& !user?.subscription
+              >
+                Details
+              </button>
+                </Link>
+            )}
           </div>
         ))}
       </div>

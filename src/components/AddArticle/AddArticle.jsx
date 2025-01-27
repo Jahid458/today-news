@@ -83,10 +83,10 @@ const AddArticle = () => {
 
       // Submit article data to the backend
       const response = await axiosSecure.post("/add-article", {article:articleData, email:user?.email}); 
-      if (response.data.insertedId) {
+      console.log(response)
+      if (response.data?.result?.insertedId) {
         reset();
         setTags([]);
-        if(response.result.insertedId){ 
         Swal.fire({
           position: "center",
           icon: "success",
@@ -94,9 +94,10 @@ const AddArticle = () => {
           showConfirmButton: false,
           timer: 1500,
         });
+
       }
       }
-    }
+    
   };
 
   return (

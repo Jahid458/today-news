@@ -13,10 +13,22 @@ import { MdPlaylistAddCheckCircle } from "react-icons/md";
 import { GiBoxUnpacking } from "react-icons/gi";
 import logo from '/todayNews.jpeg'
 import useAdmin from "../../hooks/useAdmin";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const [isAdmin] = useAdmin()
+  const axiosPublic = useAxiosPublic();
+
+  const { data: userType = [] } = useQuery({
+    queryKey: ["usertype", user?.email],
+    queryFn: async () => {
+      const res = await axiosPublic.get(`/userType/${user?.email}`);
+      return res.data;
+    },
+  });
+  // console.log(usertype)
 
   return (
     <nav className="bg-black shadow-md sticky top-0 z-50 ">
@@ -49,10 +61,16 @@ const Navbar = () => {
           <Link to="/my-article" className="text-white hover:text-green-600">
             <MdPlaylistAddCheckCircle className="inline mr-1" /> My Article
           </Link>
-         
-          <Link to="/premium" className="text-white hover:text-green-600">
+
+          {userType.premiumTaken !== null && (
+                  <li>
+                     <Link to="/premium" className="text-white hover:text-green-600">
             <GiBoxUnpacking className="inline mr-1" /> Premium Article
           </Link>
+                  </li>
+                )}
+         
+         
         </div>
 
         {/* User Section */}

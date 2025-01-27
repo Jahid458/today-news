@@ -30,10 +30,10 @@ const UpdateArticle = () => {
         setLoadingPublishers(false);
       }
     };
-
     fetchPublishers();
   }, []);
 
+  
   // Initialize form values with defaultArticledata
   useEffect(() => {
     if (defaultArticledata) {

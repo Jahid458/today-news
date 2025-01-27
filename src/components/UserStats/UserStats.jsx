@@ -8,7 +8,7 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 const UserStats = () => {
     const axiosSecure = useAxiosPublic();
 
-    const { data: usersStats = [], refetch } = useQuery({
+    const { data: usersStats = [] } = useQuery({
       queryKey: ["users-stats"],
       queryFn: async () => {
         const res = await axiosSecure.get("/users-stats");
