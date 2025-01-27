@@ -1,7 +1,7 @@
 
 const NewspaperAccordion = () => {
   return (
-    <div className=" p-8 join join-vertical w-full sm:w-11/12 md:w-11/12 lg:ml-40 md:ml-11 mx-auto mt-8">
+    <div className=" p-8 join join-vertical w-full sm:w-11/12 md:w-11/12 lg:ml-20 md:ml-11 mx-auto mt-8">
       <h2 className="text-xl font-bold text-center mb-4">News Categories</h2>
 
       <div className="collapse collapse-arrow join-item border-base-300 border">
