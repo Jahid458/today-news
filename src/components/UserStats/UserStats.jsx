@@ -16,7 +16,6 @@ const UserStats = () => {
       },
     })
 
-    console.log(usersStats);
  
 
  

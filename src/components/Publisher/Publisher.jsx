@@ -17,7 +17,6 @@ const Publisher = () => {
     },
   });
 
-  console.log(publishers);
   return (
     <div className="w-11/12 mx-auto my-20">
       <h2 className="text-4xl font-bold text-center   text-green-600 mb-4">

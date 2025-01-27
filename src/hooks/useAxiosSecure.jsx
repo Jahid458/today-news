@@ -5,7 +5,7 @@ import useAuth from "./useAuth";
 
 
 export const axiosSecure = axios.create({
-    baseURL: 'http://localhost:5000'
+    baseURL: 'https://today-news-server-two.vercel.app'
 });
 export const useAxiosSecure = () =>{
     const navigate = useNavigate();

@@ -34,7 +34,7 @@ const AddArticle = () => {
 
     fetchPublishers();
   }, []);
-  console.log(publishers);
+
 
   const staticTags = [
     { value: "technology", label: "Technology" },

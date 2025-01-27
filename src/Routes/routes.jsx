@@ -20,6 +20,7 @@ import AdminRoute from "./AdminRoute";
 import Dashboard from "../components/Dashboard/Dashboard";
 import PremiumArticles from './../components/PremiumArticles/PremiumArticles';
 import Payment from "../pages/Payment/Payment";
+import NotFound from "../components/ErrorPage/NotFound";
 
 
 {/* <PrivateRoute></PrivateRoute>  */}
@@ -27,6 +28,7 @@ export const routes = createBrowserRouter([
     {
       path: "/",
       element: <MainLayout></MainLayout>,
+      errorElement: <NotFound></NotFound>,
       _children: [
         {
           path: '/',
@@ -48,12 +50,12 @@ export const routes = createBrowserRouter([
         {
           path: 'article-details/:id',
           element: <PrivateRoute><ArticleDetails></ArticleDetails></PrivateRoute>,
-          loader: ({ params }) => fetch(`http://localhost:5000/article/${params.id}`),
+          loader: ({ params }) => fetch(`https://today-news-server-two.vercel.app/article/${params.id}`),
         },
         {
           path: 'update-article/:id',
           element: <UpdateArticle></UpdateArticle>,
-          loader: ({ params }) => fetch(`http://localhost:5000/article/${params.id}`),
+          loader: ({ params }) => fetch(`https://today-news-server-two.vercel.app/article/${params.id}`),
         },
         {
           path: 'subscription',
