@@ -16,6 +16,27 @@ News Today dynamic news platform with both user and admin functionalities. Users
 - User Profile and Article Management: Users can view and update their profiles, manage their own articles, and track the status of each article (approved, pending, or declined).
 - Admin Dashboard: Admins can view user stats, manage articles, approve or decline submissions, and track publisher data through dynamic charts.
 
+# 1️⃣ Prerequisites
+Ensure you have the following installed:
+- [Node.js](https://nodejs.org/) (Recommended version: 18.x or later)
+- [npm](https://www.npmjs.com/) (Comes with Node.js) or [yarn](https://yarnpkg.com/)
+
+# 2️⃣ Clone the Repository
+```sh
+git clone <repository-url>
+cd <project-folder>
+```
+
+
+# 3️⃣ Install Dependencies
+```sh
+npm install
+```
+# 4️⃣ Run the Development Server
+```sh
+npm start / nodemon index.js
+```
+
 
 # Admin Email & Passwords:
 - Admin Mail -->  admin@admin.com
