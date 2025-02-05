@@ -21,5 +21,5 @@ News Today dynamic news platform with both user and admin functionalities. Users
 - Admin Mail -->  admin@admin.com
 - Admin Pass -->  Admin!!1234
 - Live Link -->  https://today-news-9ce79.web.app
-- Github client link -> https://github.com/Programming-Hero-Web-Course4/b10a12-client-side-Jahid458
+- Github client link -> https://github.com/Jahid458/today-news
 - Github Server Link --> https://github.com/Programming-Hero-Web-Course4/b10a12-server-side-Jahid458
