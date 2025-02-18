@@ -8,6 +8,7 @@ import UserStats from "../../components/UserStats/UserStats";
 import NewspaperAccordion from "../../components/AccordionItem/NewspaperAccordion";
 import Reviews from "../../components/Reviews/Reviews";
 import LatestNews from "../../components/LatestNews/LatestNews";
+import SubscribeNewsletter from "../../components/SubscribeNewsletter/SubscribeNewsletter";
 
 
 const Home = () => {
@@ -29,7 +30,7 @@ const Home = () => {
   };
 
   return (
-    <div className="mt-20">
+    <div className="mt-10">
       {/* Sections */}
       <LatestNews/>
       <TrendingArticles />
@@ -38,6 +39,7 @@ const Home = () => {
       <UserStats/>
       <NewspaperAccordion />
       <Reviews/>
+      <SubscribeNewsletter/>
       
 
       {/* Modal for Subscription */}

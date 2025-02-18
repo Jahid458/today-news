@@ -46,8 +46,11 @@ const TrendingArticles = () => {
 
   return (
     <div className="w-11/12 mx-auto my-9">
-      <h2 className="text-3xl font-bold mb-6 text-center text-green-600">
+      {/* <h2 className="text-3xl font-bold mb-6 text-center text-green-600">
         Trending Articles
+      </h2> */}
+      <h2 className="lg:text-5xl md:text-3xl  text-2xl mb-4  font-serif font-extrabold text-gray-800 uppercase tracking-wider border-b-8 border-double border-gray-700 pb-3">
+        📰 Trending Articles
       </h2>
       <Swiper
         spaceBetween={20}
