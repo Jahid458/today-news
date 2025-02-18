@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { FaSearch, FaUserCircle } from "react-icons/fa";
 import useAuth from "../../hooks/useAuth";
+import useRole from "../../hooks/useRole";
 
 const DashBoardNavbar = () => {
   const [search, setSearch] = useState("");
   const {user} = useAuth();
+  const [role] = useRole();
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
@@ -26,6 +28,10 @@ const DashBoardNavbar = () => {
 
       {/* User Profile */}
       <div className="flex items-center space-x-4">
+            <div className="flex flex-col items-center ">
+                <h1 className="text-sm uppercase text-green-600">{user?.displayName}</h1>
+                <p className=' text-black'> {role} </p>
+            </div>
          <img src={user.photoURL} alt="" className="h-[45px] w-[45px] rounded-full border border-green-500" />
       </div>
     </div>
