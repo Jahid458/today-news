@@ -49,7 +49,7 @@ const Home = () => {
       {/* Close Button */}
       <button
         onClick={() => setShowModal(false)}
-        className="absolute top-4 right-4 bg-red-500 text-white rounded-xl p-2 hover:bg-red-600 transition"
+        className="absolute top-4 right-4 bg-green-600 text-white rounded-full p-2 hover:bg-red-600 transition"
         aria-label="Close"
       >
         ✕
