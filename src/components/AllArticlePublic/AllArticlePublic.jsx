@@ -36,9 +36,7 @@ const AllArticlePublic = () => {
   });
 
   // eslint-disable-next-line no-unused-vars
-  const {
-    data: publishers = [],
-  } = useQuery({
+  const {data: publishers = [] } = useQuery({
     queryKey: ["publishers"],
     queryFn: async () => {
       const res = await axiosPublic.get("/publishers");

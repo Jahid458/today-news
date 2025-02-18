@@ -7,6 +7,7 @@ import TrendingArticles from "../../components/TrendingArticles/TrendingArticles
 import UserStats from "../../components/UserStats/UserStats";
 import NewspaperAccordion from "../../components/AccordionItem/NewspaperAccordion";
 import Reviews from "../../components/Reviews/Reviews";
+import LatestNews from "../../components/LatestNews/LatestNews";
 
 
 const Home = () => {
@@ -30,6 +31,7 @@ const Home = () => {
   return (
     <div className="mt-20">
       {/* Sections */}
+      <LatestNews/>
       <TrendingArticles />
       <Publisher />
       <Plans />

@@ -9,7 +9,20 @@ const Login = () => {
   const { signInWithGoogle, signIn } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const [email,setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [authError, setAuthError] = useState("");
+
+  const userLogin = () =>{
+      setEmail('araf@email.com');
+      setPassword('123456')
+  }
+  const AdminLogin = () =>{
+      setEmail('admin@admin.com');
+      setPassword('Admin!!1234')
+  }
+
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -45,6 +58,10 @@ const Login = () => {
     <div className="flex justify-center items-center min-h-screen">
       <div className="flex flex-col w-full max-w-lg p-6 border border-gray-300 rounded-lg shadow-lg">
         <div className="text-center">
+          <div className="space-x-4 mb-4">
+            <button onClick={AdminLogin} className="btn px-10 font-bold bg-green-600 hover:bg-green-700 hover:text-white">Admin</button>
+            <button onClick={userLogin} className="btn px-10 font-bold bg-green-600 hover:bg-green-700 hover:text-white">User</button>
+          </div>
           <h1 className="text-3xl font-bold text-green-600">Log In</h1>
           <p className="text-sm text-gray-600">Sign in to access your account</p>
         </div>
@@ -58,6 +75,7 @@ const Login = () => {
               name="email"
               id="email"
               required
+              value={email}
               placeholder="Enter Your Email"
               className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-600"
             />
@@ -70,6 +88,7 @@ const Login = () => {
               type="password"
               name="password"
               id="password"
+              value={password}
               required
               placeholder="Enter Your Password"
               className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-600"

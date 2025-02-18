@@ -74,6 +74,15 @@ export const routes = createBrowserRouter([
           path: 'payment',
           element: <Payment />
         }
+        ,
+        {
+          path:'login',
+          element: <Login></Login>
+         },
+         {
+          path:'register',
+          element: <Register></Register>
+         }
       ],
       get children() {
         return this._children;
@@ -82,14 +91,7 @@ export const routes = createBrowserRouter([
         this._children = value;
       },
     },
-    {
-      path:'login',
-      element: <Login></Login>
-     },
-     {
-      path:'register',
-      element: <Register></Register>
-     },
+
      {
       path: 'dashboard',
       element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,

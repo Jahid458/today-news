@@ -236,6 +236,7 @@ const AllArticles = () => {
       </div>
 
 
+
 <dialog id="my_modal_3" className="modal">
   <div className="modal-box">
   <form onSubmit={handleSubmit(onSubmit)}>
