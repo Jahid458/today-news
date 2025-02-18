@@ -53,6 +53,7 @@ const TrendingArticles = () => {
         📰 Trending Articles
       </h2>
       <Swiper
+        
         spaceBetween={20}
         pagination={{
           clickable: true,

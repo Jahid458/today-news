@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
-import { FaBars, FaUser, FaNewspaper, FaPlus } from "react-icons/fa";
+import { FaBars, FaUser, FaNewspaper, FaPlus, FaHome } from "react-icons/fa";
 import Navbar from "../pages/Navbar/Navbar";
 import { MdDashboard } from "react-icons/md";
+import DashBoardNavbar from "../components/DashboardNavbar/DashBoardNavbar";
 
 
 const DashboardLayout = () => {
@@ -85,6 +86,20 @@ const DashboardLayout = () => {
                 Add Publisher
               </NavLink>
             </li>
+            <hr />
+            <li>
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  `flex items-center px-6 py-3 text-gray-700 hover:bg-gray-200 ${
+                    isActive ? "bg-gray-200 font-bold" : ""
+                  }`
+                }
+              >
+                <FaHome className="mr-3" />
+                Home
+              </NavLink>
+            </li>
           </ul>
         </nav>
       </div>
@@ -92,8 +107,8 @@ const DashboardLayout = () => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Navbar */}
-        <Navbar />
-
+        {/* <Navbar /> */}
+          <DashBoardNavbar/>
         {/* Content Area */}
         <main className="flex-1 overflow-y-auto p-6">
           <Outlet />

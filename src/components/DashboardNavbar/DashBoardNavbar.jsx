@@ -1,0 +1,35 @@
+import { useState } from "react";
+import { FaSearch, FaUserCircle } from "react-icons/fa";
+import useAuth from "../../hooks/useAuth";
+
+const DashBoardNavbar = () => {
+  const [search, setSearch] = useState("");
+  const {user} = useAuth();
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+  };
+
+  return (
+    <div className="flex bg-white sticky top-0 z-50 h-[61px] justify-between items-center  px-10">
+      {/* Search Bar */}
+      <div className="relative w-1/3">
+        <input
+          type="text"
+          placeholder="Search..."
+          value={search}
+          onChange={handleSearch}
+          className="w-full p-2 pl-10 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-green-500"
+        />
+        <FaSearch className="absolute left-3 top-3 text-gray-500" />
+      </div>
+
+      {/* User Profile */}
+      <div className="flex items-center space-x-4">
+         <img src={user.photoURL} alt="" className="h-[45px] w-[45px] rounded-full border border-green-500" />
+      </div>
+    </div>
+  );
+};
+
+export default DashBoardNavbar;
