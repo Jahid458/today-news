@@ -87,6 +87,19 @@ const DashboardLayout = () => {
                 Add Publisher
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                to="/dashboard/profile"
+                className={({ isActive }) =>
+                  `flex items-center px-6 py-3 text-gray-700 dark:text-white hover:bg-gray-200 ${
+                    isActive ? "bg-green-600 font-bold" : ""
+                  }`
+                }
+              >
+                <FaPlus className="mr-3" />
+                Profile
+              </NavLink>
+            </li>
             <hr />
             <li>
               <NavLink

@@ -106,6 +106,10 @@ export const routes = createBrowserRouter([
           element:<Dashboard></Dashboard>
         },
         {
+          path: 'profile',
+          element: <PrivateRoute><Profile></Profile></PrivateRoute>
+        },
+        {
           path: 'users',
           element: <AdminRoute><AllUser></AllUser></AdminRoute>
         },
