@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { FaBars, FaUser, FaNewspaper, FaPlus, FaHome } from "react-icons/fa";
-import Navbar from "../pages/Navbar/Navbar";
 import { MdDashboard } from "react-icons/md";
 import DashBoardNavbar from "../components/DashboardNavbar/DashBoardNavbar";
+import useAuth from "../hooks/useAuth";
+
 
 
 const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-      
+  const {  logOut } = useAuth();
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -99,6 +100,11 @@ const DashboardLayout = () => {
                 <FaHome className="mr-3" />
                 Home
               </NavLink>
+            </li>
+            <li>
+              <button className="px-6 hover:text-green-600" onClick={logOut}>
+                Logout
+              </button>
             </li>
           </ul>
         </nav>

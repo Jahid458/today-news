@@ -1,16 +1,7 @@
 import { Link } from "react-router-dom";
-import {
-  FaHome,
-  FaPlus,
-  FaSignOutAlt,
-  FaSignInAlt,
-  FaUserPlus,
-  FaTachometerAlt,
-  FaNewspaper,
-} from "react-icons/fa";
+import { FaSignOutAlt, FaSignInAlt, FaUserPlus } from "react-icons/fa";
 import useAuth from "../../hooks/useAuth";
-import { MdPlaylistAddCheckCircle } from "react-icons/md";
-import { GiBoxUnpacking } from "react-icons/gi";
+
 import logo from "/todayNews.jpeg";
 import useAdmin from "../../hooks/useAdmin";
 import { useQuery } from "@tanstack/react-query";
@@ -42,13 +33,19 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <div className="hidden lg:flex space-x-6">
           <Link to="/" className=" text-black hover:text-green-600">
-            <FaHome className="inline mr-1" /> Home
+            Home
           </Link>
           <Link
             to="/public-all-article"
             className="text-black hover:text-green-600"
           >
-            <FaNewspaper className="inline mr-1" /> All Articles
+            All Articles
+          </Link>
+          <Link
+            to="/about"
+            className="text-black hover:text-green-600"
+          >
+           About
           </Link>
 
           {user && (
@@ -57,7 +54,7 @@ const Navbar = () => {
                 to="/add-article"
                 className="text-black hover:text-green-600"
               >
-                <FaPlus className="inline mr-1" /> Add Articles
+                Add Articles
               </Link>
 
               {isAdmin ? (
@@ -65,7 +62,7 @@ const Navbar = () => {
                   to="/dashboard"
                   className="text-black hover:text-green-600"
                 >
-                  <FaTachometerAlt className="inline mr-1" /> Dashboard
+                  Dashboard
                 </Link>
               ) : (
                 ""
@@ -74,7 +71,7 @@ const Navbar = () => {
                 to="/my-article"
                 className="text-black hover:text-green-600"
               >
-                <MdPlaylistAddCheckCircle className="inline mr-1" /> My Article
+                My Article
               </Link>
 
               {userType.premiumTaken !== null && (
@@ -83,7 +80,7 @@ const Navbar = () => {
                     to="/premium"
                     className="text-black hover:text-green-600"
                   >
-                    <GiBoxUnpacking className="inline mr-1" /> Premium Article
+                    Premium Article
                   </Link>
                 </li>
               )}
@@ -115,13 +112,13 @@ const Navbar = () => {
                 to="/login"
                 className="text-green-600 border border-green-600 px-4 py-2 rounded hover:bg-green-600 hover:text-black"
               >
-                <FaSignInAlt className="inline mr-1" /> Login
+                Login
               </Link>
               <Link
                 to="/register"
                 className="text-black bg-green-600 px-4 py-2 rounded hover:bg-green-600"
               >
-                <FaUserPlus className="inline mr-1" /> Register
+                Register
               </Link>
             </>
           )}
@@ -150,43 +147,31 @@ const Navbar = () => {
               className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-green-600 rounded-box w-52 text-black"
             >
               <li>
-                <Link to="/">
-                  <FaHome className="mr-2" /> Home
-                </Link>
+                <Link to="/">Home</Link>
               </li>
 
               <li>
-                <Link to="/all-articles">
-                  <FaNewspaper className="mr-2" /> All Articles
-                </Link>
+                <Link to="/all-articles">All Articles</Link>
               </li>
 
               {user && (
                 <>
                   <li>
-                    <Link to="/add-articles">
-                      <FaPlus className="mr-2" /> Add Articles
-                    </Link>
+                    <Link to="/add-articles">Add Articles</Link>
                   </li>
 
                   {isAdmin && (
                     <li>
-                      <Link to="/dashboard">
-                        <FaTachometerAlt className="mr-2" /> Dashboard
-                      </Link>
+                      <Link to="/dashboard">Dashboard</Link>
                     </li>
                   )}
                   <li>
-                    <Link to="/my-article">
-                      <MdPlaylistAddCheckCircle className="mr-2" /> My Article
-                    </Link>
+                    <Link to="/my-article">My Article</Link>
                   </li>
 
                   {userType.premiumTaken !== null && (
                     <li>
-                      <Link to="/premium-article">
-                        <GiBoxUnpacking className="mr-2" /> Premium Article
-                      </Link>
+                      <Link to="/premium-article">Premium Article</Link>
                     </li>
                   )}
                 </>

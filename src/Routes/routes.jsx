@@ -21,6 +21,7 @@ import Dashboard from "../components/Dashboard/Dashboard";
 import PremiumArticles from './../components/PremiumArticles/PremiumArticles';
 import Payment from "../pages/Payment/Payment";
 import NotFound from "../components/ErrorPage/NotFound";
+import AboutPage from "../components/AboutPage/AboutPage";
 
 
 {/* <PrivateRoute></PrivateRoute>  */}
@@ -73,6 +74,10 @@ export const routes = createBrowserRouter([
         {
           path: 'payment',
           element: <Payment />
+        },
+        {
+          path:'about',
+          element: <AboutPage></AboutPage>
         }
         ,
         {
