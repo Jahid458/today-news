@@ -20,7 +20,7 @@ const UserStats = () => {
 
  
   return (
-    <div className="p-8 bg-gray-50  flex flex-col items-center">
+    <div className="p-8 bg-gray-50 dark:bg-gray-700   flex flex-col items-center">
       <h1 className="text-3xl font-bold mb-6 text-center">User Statistics</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-4xl">
         {/* Total Users */}

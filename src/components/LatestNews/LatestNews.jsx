@@ -20,7 +20,7 @@ const LatestNews = () => {
         Latest News
       </h2> */}
 
-      <h2 className="lg:text-5xl md:text-3xl  text-2xl w-11/12 mx-auto font-serif font-extrabold text-gray-800 uppercase tracking-wider border-b-8 border-double border-gray-700 pb-3">
+      <h2 className="lg:text-5xl md:text-3xl dark:text-white  text-2xl w-11/12 mx-auto font-serif font-extrabold text-gray-800 uppercase tracking-wider border-b-8 border-double border-gray-700 pb-3">
         📰 Latest News
       </h2>
       <div className="w-11/12 mx-auto my-10">
@@ -37,7 +37,7 @@ const LatestNews = () => {
                   {Articles[0].title}
                 </Link>
               </h2>
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-white">
                 {Articles[0].description.slice(0, 350)}...
               </p>
             </div>
@@ -57,7 +57,7 @@ const LatestNews = () => {
                           {news.title}
                         </Link>
                       </h3>
-                      <h3 className="text-gray-600">
+                      <h3 className="text-gray-600 dark:text-white">
                         {news.description.slice(0, 50)}...
                       </h3>
                     </div>

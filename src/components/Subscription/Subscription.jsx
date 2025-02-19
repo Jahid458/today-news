@@ -21,7 +21,7 @@ const Subscription = () => {
 
   return (
     <div 
-      className="bg-green-200 text-black p-10 shadow-xl flex flex-col items-center"
+      className="bg-green-200 text-black  p-10 shadow-xl flex flex-col items-center"
     >
       <h1 className="text-5xl font-extrabold mb-6">Subscribe Our Newspaper!</h1>
       <p className="text-xl mb-8 text-center max-w-2xl">

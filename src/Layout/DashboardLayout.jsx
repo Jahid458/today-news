@@ -16,10 +16,10 @@ const DashboardLayout = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-gray-100 dark:bg-gray-700 dark:text-white">
       {/* Sidebar */}
       <div
-        className={`fixed lg:static top-0 left-0 bg-white shadow-lg h-screen w-64 transition-transform transform ${
+        className={`fixed lg:static top-0 left-0 bg-white dark:bg-gray-800 shadow-lg h-screen w-64 transition-transform transform ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } lg:translate-x-0 z-50 overflow-y-auto`}
       >
@@ -37,23 +37,23 @@ const DashboardLayout = () => {
           <ul className="space-y-2">
           <li>
               <NavLink
-                to="/dashboard"
+                to="/dashboard/statistics"
                 className={({ isActive }) =>
-                  `flex items-center px-6 py-3 text-gray-700 hover:bg-gray-200 ${
-                    isActive ? "bg-gray-200 font-bold" : ""
+                  `flex items-center px-6 py-3 text-gray-700 dark:text-white hover:bg-gray-200 ${
+                    isActive ? "bg-green-600 font-bold" : ""
                   }`
                 }
               >
                 <MdDashboard className="mr-3" />
-                Dashboard
+                Statistics
               </NavLink>
             </li>
             <li>
               <NavLink
                 to="/dashboard/users"
                 className={({ isActive }) =>
-                  `flex items-center px-6 py-3 text-gray-700 hover:bg-gray-200 ${
-                    isActive ? "bg-gray-200 font-bold" : ""
+                  `flex items-center px-6 py-3 text-gray-700 dark:text-white hover:bg-gray-200 ${
+                    isActive ? "bg-green-600 font-bold" : ""
                   }`
                 }
               >
@@ -65,8 +65,8 @@ const DashboardLayout = () => {
               <NavLink
                 to="/dashboard/all-articles"
                 className={({ isActive }) =>
-                  `flex items-center px-6 py-3 text-gray-700 hover:bg-gray-200 ${
-                    isActive ? "bg-gray-200 font-bold" : ""
+                  `flex items-center px-6 py-3 text-gray-700 dark:text-white hover:bg-gray-200 ${
+                    isActive ? "bg-green-600 font-bold" : ""
                   }`
                 }
               >
@@ -78,8 +78,8 @@ const DashboardLayout = () => {
               <NavLink
                 to="/dashboard/publisher"
                 className={({ isActive }) =>
-                  `flex items-center px-6 py-3 text-gray-700 hover:bg-gray-200 ${
-                    isActive ? "bg-gray-200 font-bold" : ""
+                  `flex items-center px-6 py-3 text-gray-700 dark:text-white hover:bg-gray-200 ${
+                    isActive ? "bg-green-600 font-bold" : ""
                   }`
                 }
               >
@@ -92,8 +92,8 @@ const DashboardLayout = () => {
               <NavLink
                 to="/"
                 className={({ isActive }) =>
-                  `flex items-center px-6 py-3 text-gray-700 hover:bg-gray-200 ${
-                    isActive ? "bg-gray-200 font-bold" : ""
+                  `flex items-center px-6 py-3 text-gray-700 dark:text-white hover:bg-gray-200 ${
+                    isActive ? "bg-green-600 font-bold" : ""
                   }`
                 }
               >

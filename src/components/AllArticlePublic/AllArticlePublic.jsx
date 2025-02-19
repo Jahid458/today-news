@@ -68,10 +68,10 @@ const AllArticlePublic = () => {
           placeholder="Search by title"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="input input-bordered w-full md:w-1/3"
+          className="input input-bordered w-full md:w-1/3 dark:text-black"
         />
         <select
-          className="select select-bordered w-full md:w-1/4"
+          className="select select-bordered w-full md:w-1/4 dark:text-black"
           value={selectedPublisher}
           onChange={(e) => setSelectedPublisher(e.target.value)}
         >
@@ -83,7 +83,7 @@ const AllArticlePublic = () => {
           ))}
         </select>
         <select
-          className="select select-bordered w-full md:w-1/4"
+          className="select select-bordered w-full md:w-1/4 dark:text-black"
           value={selectedTag}
           onChange={(e) => setSelectedTag(e.target.value)}
         >
