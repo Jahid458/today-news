@@ -11,7 +11,7 @@ const AllArticlePublic = () => {
   const [selectedPublisher, setSelectedPublisher] = useState("");
   const [selectedTag, setSelectedTag] = useState("");
 
-  //prmium taken
+  // Get user type
   const { data: usertype = [] } = useQuery({
     queryKey: ["usertype", user?.email],
     queryFn: async () => {
@@ -19,9 +19,8 @@ const AllArticlePublic = () => {
       return res.data;
     },
   });
-  console.log(usertype);
 
-  // Fetch articles using React Query
+  // Fetch articles
   const { data: articles = [], refetch } = useQuery({
     queryKey: ["allArticles", searchTerm, selectedPublisher, selectedTag],
     queryFn: async () => {
@@ -35,8 +34,8 @@ const AllArticlePublic = () => {
     },
   });
 
-  // eslint-disable-next-line no-unused-vars
-  const {data: publishers = [] } = useQuery({
+  // Fetch publishers
+  const { data: publishers = [] } = useQuery({
     queryKey: ["publishers"],
     queryFn: async () => {
       const res = await axiosPublic.get("/publishers");
@@ -50,10 +49,8 @@ const AllArticlePublic = () => {
   };
 
   const handleViewCount = (id) => {
-    console.log(id);
-    axiosPublic.patch(`/viewCount/${id}`).then((res) => {
+    axiosPublic.patch(`/viewCount/${id}`).then(() => {
       refetch();
-      console.log(res);
     });
   };
 
@@ -68,10 +65,10 @@ const AllArticlePublic = () => {
           placeholder="Search by title"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="input input-bordered w-full md:w-1/3 dark:text-black"
+          className="input input-bordered w-full md:w-1/3 dark:bg-gray-800 dark:text-white"
         />
         <select
-          className="select select-bordered w-full md:w-1/4 dark:text-black"
+          className="select select-bordered w-full md:w-1/4 dark:bg-gray-800 dark:text-white"
           value={selectedPublisher}
           onChange={(e) => setSelectedPublisher(e.target.value)}
         >
@@ -83,7 +80,7 @@ const AllArticlePublic = () => {
           ))}
         </select>
         <select
-          className="select select-bordered w-full md:w-1/4 dark:text-black"
+          className="select select-bordered w-full md:w-1/4 dark:bg-gray-800 dark:text-white"
           value={selectedTag}
           onChange={(e) => setSelectedTag(e.target.value)}
         >
@@ -93,59 +90,62 @@ const AllArticlePublic = () => {
           <option value="technology">Technology</option>
           <option value="Politics">Politics</option>
           <option value="sports">Sports</option>
-          {/*    */}
         </select>
         <button
           onClick={handleSearch}
-          className="btn btn-primary px-5 text-white"
+          className="btn btn-primary w-32 text-white"
         >
           Search
         </button>
       </div>
 
       {/* Articles List */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {articles.map((article) => (
           <div
             key={article._id}
-            className={`card border p-4 rounded-lg ${
+            className={`card border p-4 rounded-lg flex flex-col justify-between h-full ${
               article.isPremium === "Yes"
                 ? "bg-yellow-100 border-yellow-400"
-                : "bg-white border-gray-300"
+                : "bg-white border-gray-300 dark:bg-gray-900 dark:border-gray-700"
             }`}
           >
-            <img
-              src={article.image}
-              alt={article.title}
-              className="w-full h-48 object-cover rounded-md mb-4"
-            />
-            <h3 className="text-xl font-bold">{article.title}</h3>
-            <p className="text-gray-600 badge  badge-outline mt-2">
-              {article.publisher}
-            </p>
-            <p className="text-gray-700 mb-4 mt-1">{article.description?.slice(0,90)}</p>
-            {article.isPremium === "Yes" && usertype?.premiumTaken === null ? (
-              <button
-                disabled
-                onClick={() => handleViewCount(article._id)}
-                className={`btn btn-primary text-white px-4 py-2}`}
+            <div>
+              <img
+                src={article.image}
+                alt={article.title}
+                className="w-full h-48 object-cover rounded-md mb-4"
+              />
+              <h3 className="text-xl font-bold dark:text-white">
+                {article.title}
+              </h3>
+              <p className="text-gray-600 badge badge-outline mt-2 dark:text-gray-300">
+                {article.publisher}
+              </p>
+              <p className="text-gray-700 mt-1 mb-4 dark:text-gray-400">
+                {article.description?.slice(0, 90)}...
+              </p>
+            </div>
 
-                //&& !user?.subscription
-              >
-                Details
-              </button>
-            ) : (
-              <Link to={`/article-details/${article._id}`}>
-              <button
-                onClick={() => handleViewCount(article._id)}
-                className={`btn btn-primary text-white px-4 py-2}`}
-
-                //&& !user?.subscription
-              >
-                Details
-              </button>
+            <div>
+              {article.isPremium === "Yes" && usertype?.premiumTaken === null ? (
+                <button
+                  disabled
+                  className="btn btn-primary w-full mt-2 text-white"
+                >
+                  Details
+                </button>
+              ) : (
+                <Link to={`/article-details/${article._id}`}>
+                  <button
+                    onClick={() => handleViewCount(article._id)}
+                    className="btn btn-primary w-full mt-2 text-white"
+                  >
+                    Details
+                  </button>
                 </Link>
-            )}
+              )}
+            </div>
           </div>
         ))}
       </div>

@@ -50,8 +50,6 @@ const AddArticle = () => {
     console.log("Form Data:", data);
 
 
-
-    // Upload image and get URL
     const imageFile = { image: data.image[0] };
     const res = await axiosPublic.post(image_hosting_api, imageFile, {
       headers: { "Content-Type": "multipart/form-data" },

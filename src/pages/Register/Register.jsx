@@ -103,7 +103,6 @@ const Register = () => {
               type="email"
               name="email"
               id="email"
-              placeholder="Enter Your Email"
               className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-600"
               required
             />
@@ -116,7 +115,6 @@ const Register = () => {
               type="password"
               name="password"
               id="password"
-              placeholder="Enter Your Password"
               className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-600"
               required
             />

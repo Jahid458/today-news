@@ -55,8 +55,8 @@ const Home = () => {
         ✕
       </button>
 
-      <h2 className="text-2xl font-bold mb-4">Subscribe Now!</h2>
-      <p className="mb-4">
+      <h2 className="text-2xl font-bold mb-4 dark:text-black">Subscribe Now!</h2>
+      <p className="mb-4 dark:text-black">
         Get access to Premium by subscribing to our plans.
       </p>
       <button

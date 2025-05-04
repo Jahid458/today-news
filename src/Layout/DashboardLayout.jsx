@@ -4,6 +4,8 @@ import { FaBars, FaUser, FaNewspaper, FaPlus, FaHome } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import DashBoardNavbar from "../components/DashboardNavbar/DashBoardNavbar";
 import useAuth from "../hooks/useAuth";
+import { CgProfile } from "react-icons/cg";
+import { IoIosLogOut } from "react-icons/io";
 
 
 
@@ -96,7 +98,7 @@ const DashboardLayout = () => {
                   }`
                 }
               >
-                <FaPlus className="mr-3" />
+                <CgProfile className="mr-3" />
                 Profile
               </NavLink>
             </li>
@@ -115,8 +117,9 @@ const DashboardLayout = () => {
               </NavLink>
             </li>
             <li>
-              <button className="px-6 hover:text-green-600" onClick={logOut}>
-                Logout
+           
+              <button className="px-6 hover:text-green-600 flex items-center gap-3" onClick={logOut}>
+              <IoIosLogOut  />  Logout
               </button>
             </li>
           </ul>
