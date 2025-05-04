@@ -6,7 +6,7 @@ import { useState } from "react";
 const AllUsers = () => {
   const axiosSecure = useAxiosSecure();
   const [currentPage, setCurrentPage] = useState(1);
-  const usersPerPage = 3;
+  const usersPerPage = 6;
 
   // Fetch users
   const { data: users = [], refetch, isLoading, isError } = useQuery({
@@ -17,10 +17,9 @@ const AllUsers = () => {
     },
   });
 
-  // Pagination logic
+  // Pagination
   const totalUsers = users.length;
   const totalPages = Math.ceil(totalUsers / usersPerPage);
-
   const paginatedUsers = users.slice(
     (currentPage - 1) * usersPerPage,
     currentPage * usersPerPage
@@ -33,59 +32,59 @@ const AllUsers = () => {
   };
 
   const handleMakeAdmin = (role, id) => {
-    axiosSecure
-      .patch(`/user/admin/${id}`, {
-        role: role,
-      })
-      .then((res) => {
-        if (res.data.modifiedCount > 0) {
-          refetch();
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "Successfully Admin Now",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        }
-      });
+    axiosSecure.patch(`/user/admin/${id}`, { role }).then((res) => {
+      if (res.data.modifiedCount > 0) {
+        refetch();
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Successfully Made Admin",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    });
   };
 
   // Loading and Error States
-  if (isLoading) return <p>Loading users...</p>;
-  if (isError) return <p>Failed to fetch users. Please try again later.</p>;
+  if (isLoading) return <p className="text-center mt-6 text-lg">Loading users...</p>;
+  if (isError) return <p className="text-center mt-6 text-red-600">Failed to fetch users.</p>;
 
   return (
     <div>
-      <div className="flex justify-evenly my-4">
-        <h2 className="text-3xl">All Users</h2>
-        <h2 className="text-3xl">Total Users: {totalUsers}</h2>
+      <div className="flex justify-between items-center my-6 px-4">
+        <h2 className="text-3xl font-bold">All Users</h2>
+        <h2 className="text-xl text-gray-600">Total Users: {totalUsers}</h2>
       </div>
-      <div className="overflow-x-auto">
+
+      <div className="overflow-x-auto shadow rounded-lg">
         <table className="table table-zebra w-full">
-          <thead>
+          <thead className="bg-green-100">
             <tr>
               <th>#</th>
               <th>Name</th>
               <th>Email</th>
-              <th>Role</th>
+              <th className="text-center">Role</th>
             </tr>
           </thead>
           <tbody>
             {paginatedUsers.map((user, index) => (
-              <tr key={user._id}>
+              <tr
+                key={user._id}
+                className={user.role === "admin" ? "bg-green-50" : ""}
+              >
                 <th>{(currentPage - 1) * usersPerPage + index + 1}</th>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
-                <td>
+                <td className="text-center">
                   {user.role === "admin" ? (
-                    <button disabled className="text-green-600 font-bold">
+                    <span className="bg-green-100 text-green-700 font-semibold px-3 py-1 rounded-full text-sm">
                       Admin
-                    </button>
+                    </span>
                   ) : (
                     <button
                       onClick={() => handleMakeAdmin("admin", user._id)}
-                      className="btn bg-green-600"
+                      className="btn btn-sm bg-green-500 text-white hover:bg-green-600"
                     >
                       Make Admin
                     </button>
@@ -97,15 +96,15 @@ const AllUsers = () => {
         </table>
       </div>
 
-      {/* Pagination Controls */}
-      <div className="flex justify-center mt-6">
+      {/* Pagination */}
+      <div className="flex justify-center mt-6 flex-wrap gap-2">
         <button
           onClick={() => handlePageChange(currentPage - 1)}
-          className={`px-4 py-2 mx-1 border ${
+          className={`px-4 py-2 border rounded-md ${
             currentPage === 1
               ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-              : "bg-white text-green-600 border-green-600"
-          } rounded-md`}
+              : "bg-white text-green-600 border-green-600 hover:bg-green-100"
+          }`}
           disabled={currentPage === 1}
         >
           Previous
@@ -115,11 +114,11 @@ const AllUsers = () => {
           <button
             key={index}
             onClick={() => handlePageChange(index + 1)}
-            className={`px-4 py-2 mx-1 border ${
+            className={`px-4 py-2 border rounded-md ${
               currentPage === index + 1
                 ? "bg-green-600 text-white"
-                : "bg-white text-green-600 border-green-600"
-            } rounded-md`}
+                : "bg-white text-green-600 border-green-600 hover:bg-green-100"
+            }`}
           >
             {index + 1}
           </button>
@@ -127,11 +126,11 @@ const AllUsers = () => {
 
         <button
           onClick={() => handlePageChange(currentPage + 1)}
-          className={`px-4 py-2 mx-1 border ${
+          className={`px-4 py-2 border rounded-md ${
             currentPage === totalPages
               ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-              : "bg-white text-green-600 border-green-600"
-          } rounded-md`}
+              : "bg-white text-green-600 border-green-600 hover:bg-green-100"
+          }`}
           disabled={currentPage === totalPages}
         >
           Next
