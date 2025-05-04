@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaChevronDown } from "react-icons/fa";
+
 
 const categories = [
   {
@@ -38,7 +38,7 @@ const NewspaperAccordion = () => {
   };
 
   return (
-    <section className="max-w-5xl w-full mx-auto mt-10 px-4 sm:px-6 lg:px-8">
+    <section className="max-w-5xl w-full mx-auto mt-5 px-4 sm:px-6 lg:px-4">
       <div className="rounded-xl p-6 md:p-8">
         <h2 className="text-3xl font-bold text-center text-green-600 dark:text-green-400 mb-6">
           News Categories
