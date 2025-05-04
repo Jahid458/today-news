@@ -7,31 +7,35 @@ import { useForm } from "react-hook-form";
 const AllArticles = () => {
   const axiosSecure = useAxiosSecure();
   const [currentPage, setCurrentPage] = useState(1);
-  const [declineid, setDeclineId] = useState('');
-  
+  const [declineId, setDeclineId] = useState('');
+
   const articlesPerPage = 3;
+
   const {
     register,
     handleSubmit,
-    // eslint-disable-next-line no-unused-vars
     formState: { errors },
+    reset
   } = useForm();
 
-  const handleMakeDecline = (declined,id) =>{
-    setDeclineId(id)
-    axiosSecure.patch(`/article-status/${id}`,{
-      status: declined
-    })
-  }
-  console.log(declineid);
+  // Handle Decline with reason modal
+  const handleMakeDecline = (status, id) => {
+    setDeclineId(id);
+    axiosSecure.patch(`/article-status/${id}`, { status }).then(() => {
+      document.getElementById("decline_modal").showModal();
+    });
+  };
 
-  // eslint-disable-next-line no-unused-vars
   const onSubmit = (data) => {
-      axiosSecure.patch(`/declineReasons/${declineid}`,{
-        declineReason: data.declineReason
-      })
-      console.log(data);
-  }
+    axiosSecure.patch(`/declineReasons/${declineId}`, {
+      declineReason: data.declineReason,
+    }).then(() => {
+      Swal.fire("Declined!", "Reason has been submitted.", "success");
+      document.getElementById("decline_modal").close();
+      reset();
+      refetch();
+    });
+  };
 
   const { data: articles = [], isLoading, refetch } = useQuery({
     queryKey: ["articles"],
@@ -41,12 +45,12 @@ const AllArticles = () => {
     },
   });
 
-  const handleApprove = (approve, id) => {
-    axiosSecure.patch(`/article-status/${id}`, { status: approve }).then(() => refetch());
+  const handleApprove = (status, id) => {
+    axiosSecure.patch(`/article-status/${id}`, { status }).then(() => refetch());
   };
 
-  const handleMakePremium = (Premium, id) => {
-    axiosSecure.patch(`/ispremium/${id}`, { status: Premium }).then(() => refetch());
+  const handleMakePremium = (status, id) => {
+    axiosSecure.patch(`/ispremium/${id}`, { status }).then(() => refetch());
   };
 
   const handleDelete = (id) => {
@@ -63,7 +67,7 @@ const AllArticles = () => {
         axiosSecure.delete(`/article-delete/${id}`).then((res) => {
           if (res.data.deletedCount > 0) {
             refetch();
-            Swal.fire("Deleted!", "Your file has been deleted.", "success");
+            Swal.fire("Deleted!", "The article has been deleted.", "success");
           }
         });
       }
@@ -84,195 +88,163 @@ const AllArticles = () => {
     }
   };
 
-  if (isLoading) {
-    return <p>Loading articles...</p>;
-  }
+  if (isLoading) return <p className="text-center">Loading articles...</p>;
 
   return (
     <div className="max-w-7xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6 text-center">All Articles</h1>
 
       <div className="overflow-x-auto">
-        <table className="table-auto w-full border-collapse border border-gray-300">
-        <thead>
-  <tr className="bg-gray-100">
-    <th className="border border-gray-300 px-4 py-2">Image</th>
-    <th className="border border-gray-300 px-4 py-2">Author</th>
-    <th className="border border-gray-300 px-4 py-2">Publisher & Title</th>
-    <th className="border border-gray-300 px-4 py-2">Posted & Status</th>
-    <th className="border border-gray-300 px-4 py-2">Actions</th>
-  </tr>
-</thead>
-<tbody>
-  {paginatedArticles.map((article) => (
-    <tr key={article._id} className="hover:bg-gray-50">
-      <td className="border border-gray-300 px-4 py-2">
-        <img
-          src={article.image}
-          alt={article.title}
-          className="h-16 w-16 object-cover rounded"
-        />
-      </td>
-
-      <td className="border border-gray-300 px-4 py-2">
-        <div className="flex items-center space-x-2">
-          <img
-            src={article.authorPhoto}
-            alt={article.authorName}
-            className="w-8 h-8 rounded-full"
-          />
-          <div>
-            <p>{article.authorName}</p>
-            <p className="text-sm text-gray-500">{article.email}</p>
-          </div>
-        </div>
-      </td>
-
-      {/* Publisher and Title */}
-      <td className="border border-gray-300 px-4 py-2">
-        <p className="text-sm text-gray-500 mt-1">{article.title}</p>
-        <p>{article.publisher}</p>
-      </td>
-
-      {/* Posted & Status */}
-      <td className="border border-gray-300 px-4 py-2">
-        <p>{new Date(article.publisherDate).toLocaleDateString()}</p>
-        <span
-          className={`px-2 py-1 mt-1 rounded-full text-sm block ${
-            article.status === "Approved"
-              ? "bg-green-100 text-green-600"
-              : article.status === "Declined"
-              ? "bg-red-100 text-red-600"
-              : "bg-yellow-100 text-yellow-600"
-          }`}
-        >
-          {article.status}
-        </span>
-      </td>
-
-      <td className="border border-gray-300 px-4 py-2">
-        <div className="grid grid-cols-2 gap-2">
-          <button
-            onClick={() => handleApprove("approved", article._id)}
-            className="p-2 btn btn-success text-white text-sm rounded"
-          >
-            Approve
-          </button>
-          <button
-            onClick={()=>{
-               handleMakeDecline("declined",article._id)
-              document.getElementById('my_modal_3').showModal()}
-            }
-            className="p-2 btn btn-success text-white text-sm rounded"
-            disabled={article.status === "Declined"}
-          >
-            Decline
-          </button>
-          <button
-            onClick={() => handleDelete(article._id)}
-            className="p-2 btn btn-error text-white text-sm rounded"
-          >
-            Delete
-          </button>
-          {article.isPremium === "No" ? (
-            <button
-              onClick={() => handleMakePremium("yes", article._id)}
-              className="p-2 btn btn-success text-white text-sm rounded"
-            >
-              Make Premium
-            </button>
-          ) : (
-            <span className="p-3 font-bold bg-purple-100 text-purple-600 text-sm rounded">
-              Premium
-            </span>
-          )}
-        </div>
-      </td>
-    </tr>
-  ))}
-</tbody>
-
+        <table className="table-auto w-full border border-gray-300">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="border px-4 py-2">Image</th>
+              <th className="border px-4 py-2">Author</th>
+              <th className="border px-4 py-2">Publisher & Title</th>
+              <th className="border px-4 py-2">Posted & Status</th>
+              <th className="border px-4 py-2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {paginatedArticles.map((article) => (
+              <tr key={article._id} className="hover:bg-gray-50">
+                <td className="border px-4 py-2">
+                  <img
+                    src={article.image}
+                    alt={article.title}
+                    className="h-16 w-16 object-cover rounded"
+                  />
+                </td>
+                <td className="border px-4 py-2">
+                  <div className="flex items-center space-x-2">
+                    <img
+                      src={article.authorPhoto}
+                      alt={article.authorName}
+                      className="w-8 h-8 rounded-full"
+                    />
+                    <div>
+                      <p>{article.authorName}</p>
+                      <p className="text-sm text-gray-500">{article.email}</p>
+                    </div>
+                  </div>
+                </td>
+                <td className="border px-4 py-2">
+                  <p className="text-sm text-gray-500">{article.title}</p>
+                  <p>{article.publisher}</p>
+                </td>
+                <td className="border px-4 py-2">
+                  <p>{new Date(article.publisherDate).toLocaleDateString()}</p>
+                  <span
+                    className={`mt-1 inline-block px-2 py-1 rounded-full text-sm ${
+                      article.status === "Approved"
+                        ? "bg-green-100 text-green-600"
+                        : article.status === "Declined"
+                        ? "bg-red-100 text-red-600"
+                        : "bg-yellow-100 text-yellow-600"
+                    }`}
+                  >
+                    {article.status}
+                  </span>
+                </td>
+                <td className="border px-4 py-2">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
+                    <button
+                      onClick={() => handleApprove("approved", article._id)}
+                      className="btn btn-success text-white text-sm w-full"
+                    >
+                      Approve
+                    </button>
+                    <button
+                      onClick={() => handleMakeDecline("declined", article._id)}
+                      className="btn btn-warning text-white text-sm w-full"
+                      disabled={article.status === "Declined"}
+                    >
+                      Decline
+                    </button>
+                    <button
+                      onClick={() => handleDelete(article._id)}
+                      className="btn btn-error text-white text-sm w-full"
+                    >
+                      Delete
+                    </button>
+                    {article.isPremium === "No" ? (
+                      <button
+                        onClick={() => handleMakePremium("yes", article._id)}
+                        className="btn btn-primary text-white text-sm w-full"
+                      >
+                        Make Premium
+                      </button>
+                    ) : (
+                      <span className="p-2 font-bold bg-purple-100 text-purple-600 text-sm rounded text-center w-full">
+                        Premium
+                      </span>
+                    )}
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </table>
       </div>
 
+      {/* Pagination Controls */}
       <div className="flex justify-center mt-6">
         <button
           onClick={() => handlePageChange(currentPage - 1)}
-          className={`px-4 py-2 mx-1 border ${
-            currentPage === 1
-              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-              : "bg-white text-green-600 border-green-600"
-          } rounded-md`}
           disabled={currentPage === 1}
+          className="btn mx-1"
         >
           Previous
         </button>
-
         {Array.from({ length: totalPages }, (_, index) => (
           <button
             key={index}
             onClick={() => handlePageChange(index + 1)}
-            className={`px-4 py-2 mx-1 border ${
-              currentPage === index + 1
-                ? "bg-green-600 text-white"
-                : "bg-white text-green-600 border-green-600"
-            } rounded-md`}
+            className={`btn mx-1 ${
+              currentPage === index + 1 ? "btn-success text-white" : "btn-outline"
+            }`}
           >
             {index + 1}
           </button>
         ))}
-
         <button
           onClick={() => handlePageChange(currentPage + 1)}
-          className={`px-4 py-2 mx-1 border ${
-            currentPage === totalPages
-              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-              : "bg-white text-green-600 border-green-600"
-          } rounded-md`}
           disabled={currentPage === totalPages}
+          className="btn mx-1"
         >
           Next
         </button>
       </div>
 
-
-
-<dialog id="my_modal_3" className="modal">
-  <div className="modal-box">
-  <form onSubmit={handleSubmit(onSubmit)}>
+      {/* Decline Reason Modal */}
+      <dialog id="decline_modal" className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg mb-4">Decline Reason</h3>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <textarea
-              id="decline-reason"
-              rows="4"
               {...register("declineReason", { required: true })}
-              className="w-full p-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 text-gray-800"
+              rows="4"
+              className="w-full p-2 border rounded-lg"
               placeholder="Write your reason here..."
             ></textarea>
-
-            {/* Modal Footer */}
+            {errors.declineReason && (
+              <p className="text-red-500 text-sm mt-1">Reason is required</p>
+            )}
             <div className="mt-6 flex justify-end gap-4">
-              {/* Cancel Button */}
               <button
                 type="button"
-                className="btn btn-outline rounded-lg px-4 py-2 text-gray-700 border-gray-300"
-                onClick={() => document.getElementById("my_modal_3").close()}
+                className="btn btn-outline"
+                onClick={() => document.getElementById("decline_modal").close()}
               >
                 Cancel
               </button>
-
-              {/* Submit Button */}
-              <button
-                type="submit"
-                className="btn bg-green-600 text-white rounded-lg px-6 py-2 hover:bg-green-700"
-              >
-                Post
+              <button type="submit" className="btn btn-success text-white">
+                Submit
               </button>
             </div>
           </form>
-
-    <textarea></textarea>
-
-  </div>
-</dialog>
+        </div>
+      </dialog>
     </div>
   );
 };
